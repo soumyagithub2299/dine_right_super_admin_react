@@ -1,4 +1,11 @@
 .GuestTableModal .modal-dialog {
     max-width: 80%; /* Set the width to 135% */
     width: 100%; /* Ensure it remains responsive */
+    /* text-align: center; */
+}
+.RestaurantDetails-GuestDetailsModal{
+    display: flex;
+}
+.GuestDetailsModar-header {
+    padding: 10px;
 }

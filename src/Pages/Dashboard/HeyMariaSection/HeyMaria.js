@@ -2,10 +2,10 @@ import React from 'react';
 import './HeyMaria.css';
 
 const data = [
-  { id: 1, imgSrc: './assets/images/Dashboard/9.png', value: '9', label: 'TOTAL MENU' },
+  { id: 1, imgSrc: './assets/images/Dashboard/9.png', value: '9', label: 'TOTAL RESTAURANT' },
   { id: 2, imgSrc: './assets/images/Dashboard/2k.png', value: '2K', label: 'TOTAL REVENUE' },
-  { id: 3, imgSrc: './assets/images/Dashboard/3.png', value: '3', label: 'TOTAL ORDERS' },
-  { id: 4, imgSrc: './assets/images/Dashboard/10.png', value: '10', label: 'TOTAL CLIENT' }
+  { id: 3, imgSrc: './assets/images/Dashboard/3.png', value: '3', label: 'TOTAL GUEST ORDERS' },
+  { id: 4, imgSrc: './assets/images/Dashboard/10.png', value: '10', label: 'OUR TOTAL CLIENT' }
 ];
 
 const HeyMaria = () => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { decryptData } from "./CRYPTO/cryptoFunction";
+import { decryptData } from "./../CRYPTO/cryptoFunction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect } from "react";

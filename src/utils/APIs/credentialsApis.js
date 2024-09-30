@@ -54,3 +54,12 @@ export async function dashboardDataAPI() {
     return response;
   });
 }
+
+//  for login
+// http://localhost:3000/api/auth/superadminlogin
+export async function SuperAdminLoginAPI(data) {
+  return withAuthorization(async () => {
+    const response = await axiosInstanceNoAuth.post("/api/auth/superadminlogin", data);
+    return response;
+  });
+}
