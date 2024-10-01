@@ -9,3 +9,9 @@
 .GuestDetailsModar-header {
     padding: 10px;
 }
+.dropdown-GuestModal{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+}

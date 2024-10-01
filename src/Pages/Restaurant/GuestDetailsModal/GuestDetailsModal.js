@@ -1,19 +1,36 @@
 // GuestDetailsModal.js
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Modal, Button, Dropdown } from "react-bootstrap";
 import "./GuestDetailsModal.css"; // Ensure this file includes the CSS for width
 import GuestTableRestro from "../GuestTableRestro/GuestTableRestro";
 
-// Define constants for Card and Cash Revenue
-const COMMISION_REVENUE=50;
-const CARD_REVENUE = 20; // Percentage for Card Revenue
-const CASH_REVENUE = 20; // Percentage for Cash Revenue
+const COMMISION_REVENUE = 50;
+const CARD_REVENUE = 20; 
+const CASH_REVENUE = 20; 
+
+const months = [
+  "January", "February", "March", "April", "May", "June", 
+  "July", "August", "September", "October", "November", "December"
+];
+
+const years = Array.from({ length: 21 }, (_, i) => 2000 + i);
 
 const GuestDetailsModal = ({ show, handleClose, restaurant }) => {
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const handleMonthSelect = (month) => {
+    setSelectedMonth(month);
+  };
+
+  const handleYearSelect = (year) => {
+    setSelectedYear(year);
+  };
+
   return (
     <Modal show={show} onHide={handleClose} centered className="GuestTableModal">
       <Modal.Header className="GuestDetailsModar-header">
-        <Modal.Title>Guest Details</Modal.Title>
+        <Modal.Title>Restaurant Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="RestaurantDetails-GuestDetailsModal">
@@ -27,10 +44,36 @@ const GuestDetailsModal = ({ show, handleClose, restaurant }) => {
             </p>
           </div>
           <div className="col-12 col-md-6">
-            <h6>Monthly Revenu</h6>
-            <p>Commision Revenu : {COMMISION_REVENUE}%</p>
-            <p>Card Revenu : {CARD_REVENUE}%</p>
-            <p>Cash Revenu : {CASH_REVENUE}%</p>
+            {/* <div className="dropdown-GuestModal">
+              <Dropdown onSelect={handleMonthSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-month">
+                  {selectedMonth || "Select Month"}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {months.map((month, index) => (
+                    <Dropdown.Item key={index} eventKey={month}>
+                      {month}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown className="mt-2" onSelect={handleYearSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-year">
+                  {selectedYear || "Select Year"}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {years.map((year, index) => (
+                    <Dropdown.Item key={index} eventKey={year}>
+                      {year}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div> */}
+            <h6 className="mt-3">Monthly Revenue</h6>
+            <p>Commission Revenue: {COMMISION_REVENUE}%</p>
+            <p>Card Revenue: {CARD_REVENUE}$</p> 
+            <p>Cash Revenue: {CASH_REVENUE}$</p> 
           </div>
         </div>
         <GuestTableRestro />

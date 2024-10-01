@@ -16,13 +16,17 @@ const CommissionTable = () => {
       name: "Garlic Hotel",
       phone: "123456789",
       commission: 15,
-      status: "unapproved", // Maps to 'Unpaid'
+      monthlyRevenuePercentage: 20,
+      paymentMethod: "Cash",
+      status: "unapproved",
     },
     {
       id: 2,
       name: "Five Elements",
       phone: "923456781",
       commission: 20,
+      monthlyRevenuePercentage: 25, 
+      paymentMethod: "Card",
       status: "unapproved",
     },
     {
@@ -30,7 +34,36 @@ const CommissionTable = () => {
       name: "RiverDine",
       phone: "823456789",
       commission: 25,
-      status: "approved", // Maps to 'Paid'
+      monthlyRevenuePercentage: 30, 
+      paymentMethod: "Card",
+      status: "approved",
+    },
+    {
+      id: 4,
+      name: "Garlic Hotel",
+      phone: "123456789",
+      commission: 15,
+      monthlyRevenuePercentage: 20,
+      paymentMethod: "Cash",
+      status: "unapproved",
+    },
+    {
+      id: 5,
+      name: "Five Elements",
+      phone: "923456781",
+      commission: 20,
+      monthlyRevenuePercentage: 25, 
+      paymentMethod: "Card",
+      status: "unapproved",
+    },
+    {
+      id: 6,
+      name: "RiverDine",
+      phone: "823456789",
+      commission: 25,
+      monthlyRevenuePercentage: 30, 
+      paymentMethod: "Cash",
+      status: "approved",
     },
   ]);
 
@@ -53,13 +86,12 @@ const CommissionTable = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Update commissions array with edited commission
     setCommissions(
       commissions.map((commission) =>
         commission.id === selectedCommission.id ? selectedCommission : commission
       )
     );
-    handleCloseModal(); // Close the modal after updating
+    handleCloseModal(); 
   };
 
   return (
@@ -72,6 +104,8 @@ const CommissionTable = () => {
               <th scope="col">Restaurant Name</th>
               <th scope="col">Mobile No.</th>
               <th scope="col">% Commission</th>
+              <th scope="col">Monthly Revenue</th> 
+              <th scope="col">Payment Method</th>
               <th scope="col">Status</th>
               <th scope="col"></th>
             </tr>
@@ -89,7 +123,9 @@ const CommissionTable = () => {
                   </th>
                   <td className="text-guest">{commission.name}</td>
                   <td className="text-guest">{commission.phone}</td>
-                  <td className="text-guest">{commission.commission}%</td>
+                  <td className="text-guest">{commission.commission}</td>
+                  <td className="text-guest">{commission.monthlyRevenuePercentage}</td> {/* Updated to remove percentage sign */}
+                  <td className="text-guest">{commission.paymentMethod}</td>
                   <td
                     className={`status ${
                       commission.status === "approved" ? "confirmed" : "cancelled"
@@ -118,7 +154,7 @@ const CommissionTable = () => {
                 </tr>
               ))}
             <tr>
-              <td colSpan="6" className="pagination-row">
+              <td colSpan="8" className="pagination-row">
                 <ReactPaginate
                   previousLabel={"Previous"}
                   nextLabel={"Next"}
