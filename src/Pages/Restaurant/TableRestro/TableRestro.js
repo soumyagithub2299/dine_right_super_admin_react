@@ -244,3 +244,200 @@ const TableRestro = () => {
 };
 
 export default TableRestro;
+  
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import "./TableRestro.css";
+// import { IoMdCheckmark } from "react-icons/io";
+// import { RxCross2 } from "react-icons/rx";
+// import ReactPaginate from "react-paginate";
+// import EditRestroModal from "../EditRestroModal/EditRestroModal";
+// import GuestDetailsModal from "../GuestDetailsModal/GuestDetailsModal"; 
+// import { RestaurantTableAPI } from "../../../utils/APIs/RestaurantApis/RestaurantApi";
+// import { toast } from "react-toastify"; 
+
+// const TableRestro = () => {
+//   const [currentPage, setCurrentPage] = useState(0);
+//   const [restaurantsPerPage] = useState(10);
+//   const [restaurants, setRestaurants] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [showModal, setShowModal] = useState(false);
+//   const [showDetailsModal, setShowDetailsModal] = useState(false); 
+//   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+//   const pageCount = Math.ceil(restaurants.length / restaurantsPerPage);
+
+//   // API call function
+//   const getRestaurantTableData = async () => {
+//     try {
+//       setLoading(true);
+//       const response = await RestaurantTableAPI();
+//       setLoading(false);
+//       if (
+//         response &&
+//         response.data &&
+//         response.data.response &&
+//         response.data.response.response === true &&
+//         response.data.response.data
+//       ) {
+//         const data = response.data.response.data;
+//         setRestaurants(data); // Assuming API returns an array of restaurants
+//       }
+//     } catch (error) {
+//       setLoading(false);
+//       console.error("Error fetching restaurant data:", error);
+//       toast.error("Failed to load restaurant data. Please try again.");
+//     }
+//   };
+
+//   // Fetch data on component mount
+//   useEffect(() => {
+//     getRestaurantTableData();
+//   }, []);
+
+//   const handlePageClick = ({ selected }) => {
+//     setCurrentPage(selected);
+//   };
+
+//   const handleEditClick = (restaurant) => {
+//     setSelectedRestaurant(restaurant);
+//     setShowModal(true);
+//   };
+
+//   const handleCloseModal = () => {
+//     setShowModal(false);
+//     setSelectedRestaurant(null);
+//   };
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     setRestaurants(
+//       restaurants.map((restaurant) =>
+//         restaurant.id === selectedRestaurant.id ? selectedRestaurant : restaurant
+//       )
+//     );
+//     handleCloseModal();
+//   };
+
+//   const handleRestaurantClick = (restaurant) => {
+//     setSelectedRestaurant(restaurant);
+//     setShowDetailsModal(true);
+//   };
+
+//   const handleCloseDetailsModal = () => {
+//     setShowDetailsModal(false);
+//     setSelectedRestaurant(null);
+//   };
+
+//   return (
+//     <div className="Restro-Table-Main p-3">
+//       {loading ? (
+//         <div>Loading...</div> 
+//       ) : (
+//         <div className="table-responsive mb-5">
+//           <table className="table table-bordered table-guest">
+//             <thead className="heading_guest">
+//               <tr>
+//                 <th scope="col">Sr No.</th>
+//                 <th scope="col">Restaurant Name</th>
+//                 <th scope="col">Mail</th>
+//                 <th scope="col">Mobile No.</th>
+//                 <th scope="col">Signup Date</th>
+//                 <th scope="col">Status</th>
+//                 <th scope="col"></th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {restaurants
+//                 .slice(
+//                   currentPage * restaurantsPerPage,
+//                   (currentPage + 1) * restaurantsPerPage
+//                 )
+//                 .map((restaurant, index) => (
+//                   <tr key={restaurant.id}>
+//                     <th scope="row" className="id-guest">
+//                       {index + 1}
+//                     </th>
+//                     <td 
+//                       className="text-guest" 
+//                       onClick={() => handleRestaurantClick(restaurant)}
+//                       style={{ cursor: "pointer"}} 
+//                     >
+//                       {restaurant.name}
+//                     </td>
+//                     <td className="text-guest">{restaurant.email}</td>
+//                     <td className="text-guest">{restaurant.phone}</td>
+//                     <td className="text-guest">{restaurant.date}</td>
+//                     <td className={`status ${restaurant.status}`}>
+//                       <div className={`status-background-${restaurant.status}`}>
+//                         {restaurant.status === "confirmed" ? (
+//                           <IoMdCheckmark />
+//                         ) : (
+//                           <RxCross2 />
+//                         )}
+//                         {restaurant.status === "confirmed" ? "Approved" : "Unapproved"}
+//                       </div>
+//                     </td>
+//                     <td
+//                       className="edit_guests"
+//                       onClick={() => handleEditClick({ ...restaurant })}
+//                     >
+//                       Edit
+//                     </td>
+//                   </tr>
+//                 ))}
+//               <tr>
+//                 <td colSpan="6" className="pagination-row">
+//                   <ReactPaginate
+//                     previousLabel={"Previous"}
+//                     nextLabel={"Next"}
+//                     breakLabel={"..."}
+//                     pageCount={pageCount}
+//                     marginPagesDisplayed={2}
+//                     pageRangeDisplayed={3}
+//                     onPageChange={handlePageClick}
+//                     containerClassName={"pagination justify-content-center"}
+//                     pageClassName={"page-item"}
+//                     pageLinkClassName={"page-link"}
+//                     previousClassName={"page-item"}
+//                     previousLinkClassName={"page-link"}
+//                     nextClassName={"page-item"}
+//                     nextLinkClassName={"page-link"}
+//                     breakClassName={"page-item"}
+//                     breakLinkClassName={"page-link"}
+//                     activeClassName={"active"}
+//                   />
+//                 </td>
+//               </tr>
+//             </tbody>
+//           </table>
+//         </div>
+//       )}
+
+//       {showModal && (
+//         <EditRestroModal
+//           show={showModal}
+//           handleClose={handleCloseModal}
+//           restaurant={selectedRestaurant}
+//           setRestaurant={setSelectedRestaurant}
+//           handleSubmit={handleSubmit}
+//         />
+//       )}
+
+//       {showDetailsModal && (
+//         <GuestDetailsModal
+//           show={showDetailsModal}
+//           handleClose={handleCloseDetailsModal}
+//           restaurant={selectedRestaurant}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default TableRestro;

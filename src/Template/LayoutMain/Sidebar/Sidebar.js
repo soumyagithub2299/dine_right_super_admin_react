@@ -15,6 +15,9 @@ import { GoTrophy } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
+import { PiCircleDashedDuotone } from "react-icons/pi";
+import { TfiLayoutSlider } from "react-icons/tfi";
+import { CiBowlNoodles } from "react-icons/ci";
 
 const Sidebar = ({ isOpen }) => {
   const [activeItem, setActiveItem] = useState(""); // State to track the active item
@@ -79,6 +82,29 @@ const Sidebar = ({ isOpen }) => {
           </li>
           </Link> 
 
+          {/* <Link to="/homePage-bannerImg">
+          <li className={`menu-item ${activeItem === "/homePage-bannerImg" ? "active" : ""}`} onClick={() => handleItemClick("/homePage-bannerImg")}>
+          <PiCircleDashedDuotone />
+              <span>Banner Image</span>
+          </li>
+          </Link>  */}
+
+          {/* <Link to="/courses-img">
+          <li className={`menu-item ${activeItem === "/courses-img" ? "active" : ""}`} onClick={() => handleItemClick("/courses-img")}>
+          <TfiLayoutSlider />
+              <span>Courses Image</span>
+          </li>
+          </Link> */}
+
+
+          {/* <Link to="/cuisines-img">
+          <li className={`menu-item ${activeItem === "/cuisines-img" ? "active" : ""}`} onClick={() => handleItemClick("/cuisines-img")}>
+          <CiBowlNoodles />
+              <span>Cuisines Image</span>
+          </li>
+          </Link> */}
+
+          
 
           {/* <Link to="/payment">
             <li

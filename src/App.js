@@ -21,6 +21,9 @@ import Payment from "./Pages/Payment/Payment";
 import Commission from "./Pages/Commision/commission";
 import Restaurant from "./Pages/Restaurant/restaurant";
 import Guests from "./Pages/Guests/Guests";
+import HomePageBannerImg from "./Pages/HomePageBannerImg/HomePageBannerImg";
+import CoursesImg from "./Pages/CoursesImg/CoursesImg";
+import CuisinesImg from "./Pages/CuisinesImg/CuisinesImg";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -82,6 +85,9 @@ function AppContent({ isOffline, loggedIn }) {
     "/reports",
     "/commission",
     "/restaurant",
+    "/homePage-bannerImg",
+    "/courses-img",
+    "/cuisines-img"
   ].includes(location.pathname);
 
   return (
@@ -105,6 +111,9 @@ function AppContent({ isOffline, loggedIn }) {
           <Route path="/payment" element={<Payment />} />
           <Route path="/guests" element={<Guests/>} />
           <Route path="/commission" element={<Commission />} />
+          <Route path="/homePage-bannerImg" element={<HomePageBannerImg/>} />
+          <Route path="/courses-img" element={<CoursesImg/>} />
+          <Route path="/cuisines-img" element={<CuisinesImg/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}
