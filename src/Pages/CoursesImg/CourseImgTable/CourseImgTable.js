@@ -9,7 +9,7 @@ import EditCourseModal from "../EditCourseModal/EditCourseModal"; // Import the 
 
 function CourseImgTable() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [guestsPerPage] = useState(5);
+  const [usersPerPage] = useState(5);
   const [banners, setBanners] = useState([]); // Store added banners
   const [showAddModal, setShowAddModal] = useState(false); // Handle add modal visibility
   const [showDeleteModal, setShowDeleteModal] = useState(false); // Handle delete modal visibility
@@ -17,7 +17,7 @@ function CourseImgTable() {
   const [bannerToDelete, setBannerToDelete] = useState(null); // Store the banner to be deleted
   const [bannerToEdit, setBannerToEdit] = useState(null); // Store the banner to be edited
 
-  const pageCount = Math.ceil(banners.length / guestsPerPage); // Dynamic page count
+  const pageCount = Math.ceil(banners.length / usersPerPage); // Dynamic page count
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -60,8 +60,8 @@ function CourseImgTable() {
     );
   };
 
-  const indexOfLastBanner = (currentPage + 1) * guestsPerPage;
-  const indexOfFirstBanner = indexOfLastBanner - guestsPerPage;
+  const indexOfLastBanner = (currentPage + 1) * usersPerPage;
+  const indexOfFirstBanner = indexOfLastBanner - usersPerPage;
   const currentBanners = banners.slice(indexOfFirstBanner, indexOfLastBanner);
 
   return (

@@ -13,9 +13,11 @@ const withAuthorization = async (apiFunction, ...args) => {
   }
 };
 
+// http://localhost:3000/api/auth/superadminlogin
+
 export async function LoginAPI(data) {
   return withAuthorization(async () => {
-    const response = await axiosInstanceNoAuth.post("/user/user_login_check", data);
+    const response = await axiosInstanceNoAuth.post("/auth/superadminlogin", data);
     return response;
   });
 }

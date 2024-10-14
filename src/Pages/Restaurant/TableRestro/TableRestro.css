@@ -1,39 +1,39 @@
-.table-guest {
+.table-user {
   border-radius: 8px;
   background-color: #ffffff;
   border: 1px solid #eaecf0 !important;
   /* overflow: hidden;  */
 }
 
-.heading_guest {
+.heading_user {
   background-color: #f9fafb;
   font-family: "Inter";
   font-weight: 500;
   font-size: 12px;
   color: #667085;
 }
-.id-guest {
+.id-user {
   font-family: "Inter";
   font-weight: 500;
   font-size: 12px;
   color: #667085;
 }
 /* for table border  */
-.table-guest th,
-.table-guest td {
+.table-user th,
+.table-user td {
   border-top: 1px solid #eaecf0;
   border-bottom: 1px solid #eaecf0;
   border-left: none;
   border-right: none;
   cursor: pointer;
 }
-.table-guest td {
+.table-user td {
   position: relative;
   top: 6px;
 }
 
 /* css for table component  */
-.edit_guests {
+.edit_users {
   font-family: "Inter";
   color: #6941c6;
   font-weight: 500;
@@ -44,20 +44,32 @@
 /* General styles for status cells */
 
 /* Status specific colors */
-.status.confirmed {
+/* .status.confirmed {
+  font-family: "Inter";
+  color: #027a48;
+  font-weight: 500;
+  font-size: 12px;
+} */
+
+.status.Activated {
   font-family: "Inter";
   color: #027a48;
   font-weight: 500;
   font-size: 12px;
 }
 
-.status.cancelled {
+/* .status.cancelled {
+  font-family: "Inter";
+  color: #b42318;
+  font-weight: 500;
+  font-size: 12px;
+} */
+.status.Deactivated {
   font-family: "Inter";
   color: #b42318;
   font-weight: 500;
   font-size: 12px;
 }
-
 .status.refund {
   font-family: "Inter";
   color: #344054;
@@ -65,7 +77,14 @@
   font-size: 12px;
 }
 
-.status-background-confirmed {
+/* .status-background-confirmed {
+  background: #ecfdf3;
+  border-radius: 16px;
+  padding: 2px 8px 2px 6px;
+  width: 110px;
+  text-align: center;
+} */
+.status-background-Activated {
   background: #ecfdf3;
   border-radius: 16px;
   padding: 2px 8px 2px 6px;
@@ -73,14 +92,23 @@
   text-align: center;
 }
 
-.status-background-cancelled {
+/* .status-background-cancelled {
   font-family: "Inter";
   background: #fef3f2;
   border-radius: 16px;
   padding: 2px 8px 2px 6px;
   width: 110px;
   text-align: center;
-}
+} */
+
+.status-background-Deactivated {
+  font-family: "Inter";
+  background: #fef3f2;
+  border-radius: 16px;
+  padding: 2px 8px 2px 6px;
+  width: 110px;
+  text-align: center;
+} 
 
 .status-background-refund {
   font-family: "Inter";
@@ -92,7 +120,7 @@
 }
 
 /* for name section  */
-.pic-email-guest {
+.pic-email-user {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -100,34 +128,34 @@
   gap: 22px;
 }
 
-.name-email-guest {
+.name-email-user {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   align-content: flex-start;
 }
-.img-guest {
+.img-user {
   width: 32px;
   height: 32px;
   border-radius: 200px;
 }
-.name-guest {
+.name-user {
   font-family: "Inter";
   font-weight: 400;
   font-size: 12px;
   color: #101828;
 }
-.email-guest {
+.email-user {
   font-family: "Inter";
   font-weight: 400;
   font-size: 11px;
   color: #667085;
 }
-.container-guest {
+.container-user {
   position: relative;
   right: 30px;
 }
-.text-guest {
+.text-user {
   font-family: "Inter";
   font-weight: 400;
   font-size: 14px;

@@ -1,12 +1,12 @@
-.GuestTableModal .modal-dialog {
+.UserTableModal .modal-dialog {
     max-width: 80%; /* Set the width to 135% */
     width: 100%; /* Ensure it remains responsive */
     /* text-align: center; */
 }
-.RestaurantDetails-GuestDetailsModal{
+.RestaurantDetails-UserDetailsModal{
     display: flex;
 }
-.GuestDetailsModar-header {
+.UserDetailsModar-header {
     padding: 10px;
 }
 .dropdown-menu-month {

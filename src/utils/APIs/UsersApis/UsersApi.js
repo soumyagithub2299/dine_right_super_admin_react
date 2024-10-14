@@ -1,5 +1,5 @@
-import { axiosInstance, axiosInstanceNoAuth } from './../commonHeadApiLogic.js';
-import { authorizeMe } from './../commonHeadApiLogic.js'
+import { axiosInstance, axiosInstanceNoAuth } from '../commonHeadApiLogic.js';
+import { authorizeMe } from '../commonHeadApiLogic.js'
 
 // Ensure authorization header is set before making authenticated requests
 const withAuthorization = async (apiFunction, ...args) => {
@@ -17,8 +17,8 @@ const withAuthorization = async (apiFunction, ...args) => {
 
 
 
-// for display guest data in table 
-export async function GuestTableAPI() {
+// for display user data in table 
+export async function UserTableAPI() {
     return withAuthorization(async () => {
       const response = await axiosInstance.get("/user/get_dashboard_data_api");
       return response;

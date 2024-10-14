@@ -37,7 +37,7 @@ const OrdersModal = ({ show, handleClose, orderDetails }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="btn-cancel-guest" onClick={handleClose}>
+        <Button className="btn-cancel-user" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>
@@ -52,7 +52,7 @@ export default OrdersModal;
 
 // import React, { useState, useEffect } from "react";
 // import { Modal, Button } from "react-bootstrap";
-// import { OrderModalAPI } from "./../../../utils/APIs/GuestsApis/GuestsApi"; 
+// import { OrderModalAPI } from "./../../../utils/APIs/UsersApis/UsersApi"; 
 // import "./OrdersModal.css";
 // import { toast } from "react-toastify";
 
@@ -131,7 +131,7 @@ export default OrdersModal;
 //         </div>
 //       </Modal.Body>
 //       <Modal.Footer>
-//         <Button className="btn-cancel-guest" onClick={handleClose}>
+//         <Button className="btn-cancel-user" onClick={handleClose}>
 //           Close
 //         </Button>
 //       </Modal.Footer>

@@ -14,25 +14,27 @@ import Login from "./Pages/Credentials/Login/Login";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Layout from "./Template/LayoutMain/LayoutMain/Layout";
 import Footer from "./Template/LayoutMain/Footer/Footer";
-import Reports from "./Pages/Guests/Guests";
+import Reports from "./Pages/Users/Users";
 import EmailModal from "./Pages/Credentials/Login/EmailModal";
 import OtpModal from "./Pages/Credentials/Login/OtpModal";
 import Payment from "./Pages/Payment/Payment";
 import Commission from "./Pages/Commision/commission";
 import Restaurant from "./Pages/Restaurant/restaurant";
-import Guests from "./Pages/Guests/Guests";
+import Users from "./Pages/Users/Users";
 import HomePageBannerImg from "./Pages/HomePageBannerImg/HomePageBannerImg";
 import CoursesImg from "./Pages/CoursesImg/CoursesImg";
 import CuisinesImg from "./Pages/CuisinesImg/CuisinesImg";
+import Blog from "./Pages/Blog/Blog";
+import BlogTemplate from "./Pages/Blog/BlogTemplate";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isDineRightUserLoggedIn");
+    const isLoggedIn = sessionStorage.getItem("isSuperAdminLoggedIn");
     const encryptedToken = localStorage.getItem(
-      "encryptedTokenForDineRightUser"
+      "superAdminTokenDineRight"
     );
 
     if (isLoggedIn === "true" && encryptedToken) {
@@ -46,6 +48,8 @@ function App() {
 
   const handleLogout = () => {
     setLoggedIn(false);
+    localStorage.removeItem("isDineRightUserLoggedIn");
+    localStorage.removeItem("encryptedTokenForDineRightUser");
   };
 
   useEffect(() => {
@@ -80,14 +84,15 @@ function AppContent({ isOffline, loggedIn }) {
   // Define the layout paths where the Navbar should be hidden
   const isLayoutRoute = [
     "/dashboard",
-    "/guests",
+    "/users",
     "/payment",
     "/reports",
     "/commission",
     "/restaurant",
     "/homePage-bannerImg",
     "/courses-img",
-    "/cuisines-img"
+    "/cuisines-img",
+    "/blogs"
   ].includes(location.pathname);
 
   return (
@@ -109,11 +114,12 @@ function AppContent({ isOffline, loggedIn }) {
           {/* <Route path="/restaurant" element={<Restaurant/>} /> */}
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/guests" element={<Guests/>} />
+          <Route path="/users" element={<Users/>} />
           <Route path="/commission" element={<Commission />} />
           <Route path="/homePage-bannerImg" element={<HomePageBannerImg/>} />
           <Route path="/courses-img" element={<CoursesImg/>} />
           <Route path="/cuisines-img" element={<CuisinesImg/>} />
+          <Route path="/blog" element={<BlogTemplate/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}

@@ -37,7 +37,7 @@ const OrdersModal = ({ show, handleClose, orderDetails }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="btn-cancel-guest" onClick={handleClose}>
+        <Button className="btn-cancel-user" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>
@@ -56,9 +56,9 @@ export default OrdersModal;
 // import { Modal, Button } from "react-bootstrap";
 // import { toast } from "react-toastify";
 // import "./OrdersModal.css";
-// import { OrderOfGuestRestaurantModalAPI } from "../../../utils/APIs/RestaurantApis/RestaurantApi"; // Ensure the correct path to your API file
+// import { OrderOfUserRestaurantModalAPI } from "../../../utils/APIs/RestaurantApis/RestaurantApi"; // Ensure the correct path to your API file
 
-// const OrdersModal = ({ show, handleClose, selectedGuestId }) => {
+// const OrdersModal = ({ show, handleClose, selectedUserId }) => {
 //   const [orderDetails, setOrderDetails] = useState({
 //     items: [],
 //     comment: "",
@@ -69,7 +69,7 @@ export default OrdersModal;
 //   const fetchOrderDetails = async () => {
 //     try {
 //       setLoading(true);
-//       const response = await OrderOfGuestRestaurantModalAPI(selectedGuestId);
+//       const response = await OrderOfUserRestaurantModalAPI(selectedUserId);
 
 //       if (
 //         response &&
@@ -96,10 +96,10 @@ export default OrdersModal;
 
  
 //   useEffect(() => {
-//     if (show && selectedGuestId) {
+//     if (show && selectedUserId) {
 //       fetchOrderDetails();
 //     }
-//   }, [show, selectedGuestId]);
+//   }, [show, selectedUserId]);
 
 //   return (
 //     <Modal show={show} onHide={handleClose} centered>
@@ -138,7 +138,7 @@ export default OrdersModal;
 //         )}
 //       </Modal.Body>
 //       <Modal.Footer>
-//         <Button className="btn-cancel-guest" onClick={handleClose}>
+//         <Button className="btn-cancel-user" onClick={handleClose}>
 //           Close
 //         </Button>
 //       </Modal.Footer>

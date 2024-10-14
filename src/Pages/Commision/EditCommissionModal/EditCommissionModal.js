@@ -38,14 +38,14 @@ const EditCommissionModal = ({
           variant="primary"
           type="submit"
           onClick={handleSubmit} // Ensuring form submission
-          className="btn-saveChanges-guest"
+          className="btn-saveChanges-user"
         >
           Save Changes
         </Button>
         <Button
           variant="secondary"
           onClick={handleClose}
-          className="btn-cancel-guest"
+          className="btn-cancel-user"
         >
           Cancel
         </Button>
@@ -140,7 +140,7 @@ export default EditCommissionModal;
 //           variant="primary"
 //           type="submit"
 //           onClick={handleSubmitForm}
-//           className="btn-saveChanges-guest"
+//           className="btn-saveChanges-user"
 //           disabled={loading} 
 //         >
 //           {loading ? "Saving..." : "Save Changes"}
@@ -148,7 +148,7 @@ export default EditCommissionModal;
 //         <Button
 //           variant="secondary"
 //           onClick={handleClose}
-//           className="btn-cancel-guest"
+//           className="btn-cancel-user"
 //         >
 //           Cancel
 //         </Button>

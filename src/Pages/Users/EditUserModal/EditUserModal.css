@@ -1,8 +1,8 @@
-.btn-cancel-guest{
+.btn-cancel-user{
     background-color: rgb(223, 22, 22) !important;
     color: white;
 }
-.btn-saveChanges-guest{
+.btn-saveChanges-user{
     background-color: #2f4cdd  !important;
     color: white;
 }

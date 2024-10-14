@@ -97,8 +97,8 @@ const CommissionTable = () => {
   return (
     <div className="Restro-Table-Main p-3">
       <div className="table-responsive mb-5">
-        <table className="table table-bordered table-guest">
-          <thead className="heading_guest">
+        <table className="table table-bordered table-user">
+          <thead className="heading_user">
             <tr>
               <th scope="col">Sr No.</th>
               <th scope="col">Restaurant Name</th>
@@ -118,14 +118,14 @@ const CommissionTable = () => {
               )
               .map((commission, index) => (
                 <tr key={commission.id}>
-                  <th scope="row" className="id-guest">
+                  <th scope="row" className="id-user">
                     {index + 1}
                   </th>
-                  <td className="text-guest">{commission.name}</td>
-                  <td className="text-guest">{commission.phone}</td>
-                  <td className="text-guest">{commission.commission}</td>
-                  <td className="text-guest">{commission.monthlyRevenuePercentage}</td> {/* Updated to remove percentage sign */}
-                  <td className="text-guest">{commission.paymentMethod}</td>
+                  <td className="text-user">{commission.name}</td>
+                  <td className="text-user">{commission.phone}</td>
+                  <td className="text-user">{commission.commission}</td>
+                  <td className="text-user">{commission.monthlyRevenuePercentage}</td> {/* Updated to remove percentage sign */}
+                  <td className="text-user">{commission.paymentMethod}</td>
                   <td
                     className={`status ${
                       commission.status === "approved" ? "confirmed" : "cancelled"
@@ -146,7 +146,7 @@ const CommissionTable = () => {
                   </td>
 
                   <td
-                    className="edit_guests"
+                    className="edit_users"
                     onClick={() => handleEditClick({ ...commission })}
                   >
                     Edit
@@ -270,8 +270,8 @@ export default CommissionTable;
 //       ) : (
 //         <>
 //           <div className="table-responsive mb-5">
-//             <table className="table table-bordered table-guest">
-//               <thead className="heading_guest">
+//             <table className="table table-bordered table-user">
+//               <thead className="heading_user">
 //                 <tr>
 //                   <th scope="col">Sr No.</th>
 //                   <th scope="col">Restaurant Name</th>
@@ -291,16 +291,16 @@ export default CommissionTable;
 //                   )
 //                   .map((commission, index) => (
 //                     <tr key={commission.id}>
-//                       <th scope="row" className="id-guest">
+//                       <th scope="row" className="id-user">
 //                         {index + 1}
 //                       </th>
-//                       <td className="text-guest">{commission.name}</td>
-//                       <td className="text-guest">{commission.phone}</td>
-//                       <td className="text-guest">{commission.commission}</td>
-//                       <td className="text-guest">
+//                       <td className="text-user">{commission.name}</td>
+//                       <td className="text-user">{commission.phone}</td>
+//                       <td className="text-user">{commission.commission}</td>
+//                       <td className="text-user">
 //                         {commission.monthlyRevenuePercentage}
 //                       </td>
-//                       <td className="text-guest">{commission.paymentMethod}</td>
+//                       <td className="text-user">{commission.paymentMethod}</td>
 //                       <td
 //                         className={`status ${
 //                           commission.status === "approved"
@@ -325,7 +325,7 @@ export default CommissionTable;
 //                       </td>
 
 //                       <td
-//                         className="edit_guests"
+//                         className="edit_users"
 //                         onClick={() => handleEditClick({ ...commission })}
 //                       >
 //                         Edit

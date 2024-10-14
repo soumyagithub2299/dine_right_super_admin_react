@@ -7,6 +7,9 @@ const LogoutModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const handleYesClick = () => {
+    sessionStorage.clear();  // If you are using sessionStorage
+    localStorage.clear();    // If you are using localStorage (optional)
+
     navigate("/login"); // Navigate to the login page
   };
 

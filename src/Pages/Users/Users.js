@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../../Template/LayoutMain/LayoutMain/Layout.css";
-import TableGuest from "./TableGuest/TableGuest";
+import TableUser from "./TableUser/TableUser";
 
-const Guests = () => {
+const Users = () => {
 
   const [value, setValue] = useState(() => {
     const storedValue = localStorage.getItem('isSidebarOpen');
@@ -41,11 +41,11 @@ const Guests = () => {
       {console.log('After',value)}
        <div className={`content-container ${value ? 'sidebar-open' : 'sidebar-closed'}`} >
       
-     <TableGuest/>
+     <TableUser/>
     </div>
     </>
    
   );
 };
 
-export default  Guests;
+export default  Users;

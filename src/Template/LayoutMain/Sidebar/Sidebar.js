@@ -18,7 +18,7 @@ import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 import { PiCircleDashedDuotone } from "react-icons/pi";
 import { TfiLayoutSlider } from "react-icons/tfi";
 import { CiBowlNoodles } from "react-icons/ci";
-
+import { BsBlockquoteRight } from "react-icons/bs";
 const Sidebar = ({ isOpen }) => {
   const [activeItem, setActiveItem] = useState(""); // State to track the active item
   const location = useLocation(); // Get the current location
@@ -63,15 +63,15 @@ const Sidebar = ({ isOpen }) => {
           </Link> 
         
          
-          <Link to="/guests">
+          <Link to="/users">
             <li
               className={`menu-item ${
-                activeItem === "/guests" ? "active" : ""
+                activeItem === "/users" ? "active" : ""
               }`}
-              onClick={() => handleItemClick("/guests")}
+              onClick={() => handleItemClick("/users")}
             >
               <IoPeopleOutline />
-              <span>Guests</span>
+              <span>Users</span>
             </li>
           </Link>
 
@@ -79,6 +79,13 @@ const Sidebar = ({ isOpen }) => {
           <li className={`menu-item ${activeItem === "/commission" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
           <LiaMoneyBillWaveSolid />
               <span>Commission</span>
+          </li>
+          </Link> 
+
+          <Link to="/blog">
+          <li className={`menu-item ${activeItem === "/blog" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
+          <BsBlockquoteRight />
+              <span>Blog</span>
           </li>
           </Link> 
 
@@ -135,18 +142,18 @@ const Sidebar = ({ isOpen }) => {
               </li>
             </Link> */}
 
-            <Link to="/login">
+            {/* <Link to="/login">
               <li
                 className={`menu-item ${
                   activeItem === "/logout" ? "active" : ""
                 }`}
                 onClick={() => handleItemClick("/logout")}
               >
-                {/* <img src="./assets/images/Sidebar/logout.png" alt="Logout" /> */}
+                
                 <TbLogout />
                 <span>Logout</span>
               </li>
-            </Link>
+            </Link> */}
           </ul>
         </div>
       </div>

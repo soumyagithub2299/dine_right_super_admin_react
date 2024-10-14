@@ -30,16 +30,16 @@ export async function EditRestaurantStatusinAPI(data) {
     });
   }
 
-// for display restaurant data of guest table inside the modal 
-export async function GuestTableOfRestaurantModalAPI() {
+// for display restaurant data of user table inside the modal 
+export async function UserTableOfRestaurantModalAPI() {
   return withAuthorization(async () => {
     const response = await axiosInstance.get("/user/get_dashboard_data_api");
     return response;
   });
 }
 
-// for display order details of guest inside the table of particular restaurant
-export async function OrderOfGuestRestaurantModalAPI() {
+// for display order details of user inside the table of particular restaurant
+export async function OrderOfUserRestaurantModalAPI() {
   return withAuthorization(async () => {
     const response = await axiosInstance.get("/user/get_dashboard_data_api");
     return response;
