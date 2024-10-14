@@ -13,8 +13,6 @@ import Navbar from "./Template/Navbar";
 import Login from "./Pages/Credentials/Login/Login";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Layout from "./Template/LayoutMain/LayoutMain/Layout";
-import Footer from "./Template/LayoutMain/Footer/Footer";
-import Reports from "./Pages/Users/Users";
 import EmailModal from "./Pages/Credentials/Login/EmailModal";
 import OtpModal from "./Pages/Credentials/Login/OtpModal";
 import Payment from "./Pages/Payment/Payment";
@@ -24,7 +22,6 @@ import Users from "./Pages/Users/Users";
 import HomePageBannerImg from "./Pages/HomePageBannerImg/HomePageBannerImg";
 import CoursesImg from "./Pages/CoursesImg/CoursesImg";
 import CuisinesImg from "./Pages/CuisinesImg/CuisinesImg";
-import Blog from "./Pages/Blog/Blog";
 import BlogTemplate from "./Pages/Blog/BlogTemplate";
 
 function App() {
@@ -92,7 +89,7 @@ function AppContent({ isOffline, loggedIn }) {
     "/homePage-bannerImg",
     "/courses-img",
     "/cuisines-img",
-    "/blogs"
+    "/blog"
   ].includes(location.pathname);
 
   return (

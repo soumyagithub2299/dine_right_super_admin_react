@@ -1,510 +1,173 @@
-// import React, { useState } from 'react';
-
-// import { FaAngleLeft } from "react-icons/fa6";
-
-// import EmailModal from './EmailModal';
-
-// import OtpModal from './OtpModal';
-
-// import { useNavigate } from 'react-router-dom';
-
-// import ChangePasswordModal from './ChangePasswordModal';
-
-// import './Login.css';
-
-// const Login = () => {
-
-//     const [step, setStep] = useState(0);
-
-//     const [email, setEmail] = useState('');
-
-//     const [otp, setOtp] = useState('');
-
-//     const [password, setPassword] = useState('');
-
-//     const navigate = useNavigate();
-
-//     const handleEmailSubmit = (email) => {
-
-//         setEmail(email);
-
-//         setStep(2); // Move to OTP step
-
-//     };
-
-//     const handleOtpSubmit = (otp) => {
-
-//         setOtp(otp);
-
-//         setStep(3);
-
-//     };
-
-//     const handlePasswordReset = (password) => {
-
-//         setPassword(password);
-
-//         setStep(0);
-
-//     };
-
-//     const handleForgotPassword = () => {
-
-//         setStep(1); // Open Email Modal
-
-//     };
-
-//     const handleClose = () => {
-
-//         setStep(0);
-
-//     };
-
-//     const handleSignIn = () => {
-
-//         // Add any sign-in logic if needed, such as validation or API calls
-
-//         // After successful sign-in, navigate to the dashboard
-
-//         navigate('/dashboard');
-
-//     };
-
-//     return (
-
-//         <div className='main-container'>
-
-//             <div className="login-container">
-
-//                 <form className="login-form" onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
-
-//                     <h2 className='login-head'><FaAngleLeft /> Login </h2>
-
-//                     <label htmlFor="email" className='login-label'>Email</label>
-
-//                     <input
-
-//                         type="email"
-
-//                         id="email"
-
-//                         className='login-input'
-
-//                         value={email}
-
-//                         onChange={(e) => setEmail(e.target.value)}
-
-//                         required
-
-//                     />
-
-//                     <label htmlFor="password" className='login-label'>Password</label>
-
-//                     <input
-
-//                         type="password"
-
-//                         id="password"
-
-//                         className='login-input'
-
-//                         value={password}
-
-//                         onChange={(e) => setPassword(e.target.value)}
-
-//                         required
-
-//                     />
-
-//                     <button type="submit" className='login-btn'>Sign In</button>
-
-//                     {/* <div className='modal-sign-btn'>
-
-//             <button type="button" className='forgot-password-btn' onClick={handleForgotPassword}>
-
-//               Forgot Password?
-
-//             </button>
-
-//           </div> */}
-
-//                 </form>
-
-//             </div>
-
-//             {step === 1 && (
-
-//                 <EmailModal
-
-//                     isOpen={step === 1}
-
-//                     onHide={handleClose}
-
-//                     onEmailSubmit={handleEmailSubmit}
-
-//                 />
-
-//             )}
-
-//             {step === 2 && (
-
-//                 <OtpModal
-
-//                     isOpen={step === 2}
-
-//                     onHide={handleClose}
-
-//                     onOtpSubmit={handleOtpSubmit}
-
-//                 />
-
-//             )}
-
-//             {step === 3 && (
-
-//                 <ChangePasswordModal
-
-//                     isOpen={step === 3}
-
-//                     onHide={handleClose}
-
-//                     onPasswordReset={handlePasswordReset}
-
-//                 />
-
-//             )}
-
-//         </div>
-
-//     );
-
-// };
-
-// export default Login;
-
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
-
-import EmailModal from './EmailModal';
-
-import OtpModal from './OtpModal';
-
-import { useNavigate } from 'react-router-dom';
-
-import ChangePasswordModal from './ChangePasswordModal';
-
-import './Login.css';
-
-import { SuperAdminLoginAPI } from '../../../utils/APIs/credentialsApis';
-
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+import { toast } from "react-toastify";
+import axios from "axios";
+import Loader from "../../Loader/Loader";
 
 const Login = () => {
-
-const [step, setStep] = useState(0);
-
-const [email, setEmail] = useState('');
-
-const [password, setPassword] = useState('');
-
-const [loading, setLoading] = useState(false); // Loading state
-
-const navigate = useNavigate();
-
-const handleEmailSubmit = (email) => {
-
-setEmail(email);
-
-setStep(2); // Move to OTP step
-
-};
-
-const handleOtpSubmit = (otp) => {
-
-setStep(3);
-
-};
-
-const handlePasswordReset = (password) => {
-
-setStep(0);
-
-};
-
-const handleForgotPassword = () => {
-
-setStep(1); // Open Email Modal
-
-};
-
-const handleClose = () => {
-
-setStep(0);
-
-};
-
-const validateInputs = () => {
-
-let isValid = true;
-
-if (!email) {
-
-toast.error('Email is required');
-
-isValid = false;
-
-} else if (!/\S+@\S+\.\S+/.test(email)) {
-
-toast.error('Please enter a valid email');
-
-isValid = false;
-
-}
-
-if (!password) {
-
-toast.error('Password is required');
-
-isValid = false;
-
-} else if (password.length < 6) {
-
-toast.error('Password must be at least 6 characters');
-
-isValid = false;
-
-}
-
-return isValid;
-
-};
-
-// const handleSignIn = async () => {
-
-// if (!validateInputs()) {
-
-// return; // Don't proceed if validation fails
-
-// }
-
-// try {
-
-// setLoading(true);
-
-// // API Call
-
-// const loginData = { 
-//     superadmin_email: email, 
-//     superadmin_password:password 
-// };
-
-// const response = await axios.post ("https://dineright.techfluxsolutions.com/api/auth/superadminlogin",loginData); // Call the login API
-
-// setLoading(false);
-
-// console.log(response);
-
-// if (
-
-// response &&
-
-// response.status === 200
-
-// ) {
-
-    
-// toast.success('Login successful!');
-// const token = response.data?.token;
-//     // const superAdminId = response.data?.id;
-//     // if (token) {
-//     //     sessionStorage.setItem('SuperAdminToken', token);
-//     //     sessionStorage.setItem('SuperAdminId', superAdminId);
-//     // }
-
-// // After successful sign-in, navigate to the dashboard
-
-// navigate('/dashboard');
-
-// } else {
-
-// toast.error(response?.data?.response?.error_msg || 'Login failed, please try again.');
-
-// }
-
-// } catch (error) {
-
-// setLoading(false);
-
-// console.error('Error logging in:', error);
-
-// toast.error('An error occurred.Invalid email or password. Please try again.');
-
-// }
-
-// };
-
-
-const handleSignIn = async () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!email) {
+      toast.error("Email is required");
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email");
+      isValid = false;
+    }
+
+    if (!password) {
+      toast.error("Password is required");
+      isValid = false;
+    } else if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const handleSignIn = async () => {
     if (!validateInputs()) {
-        return; // Don't proceed if validation fails
+      return;
     }
 
     try {
-        setLoading(true);
+      setLoading(true);
 
-        // API Call
-        const loginData = {
-            superadmin_email: email,
-            superadmin_password: password
-        };
+      const body = {
+        superadmin_email: email,
+        superadmin_password: password,
+      };
 
-        const response = await axios.post("https://dineright.techfluxsolutions.com/api/auth/superadminlogin", loginData); // Call the login API
+      const response = await axios.post(
+        `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/superadminlogin`,
+        body
+      );
 
-        console.log(response?.status);
-        setLoading(false);
+      setLoading(false);
 
-        if (response && response.status === 200) {
-            console.log("login",response?.data?.response===true)
-            if(response?.data?.response===true)
-            {
-                toast.success('Login successful!');
+      if (response?.data?.response === true) {
+        setEmail("");
+        setPassword("");
 
-                // Store the token in sessionStorage
-                const token = response.data?.token;
-                const SuperAdminId = response.data?.superadmin_id;
+        sessionStorage.clear();
 
-                if (token) {
-                    sessionStorage.setItem('superAdminTokenDineRight', token);
-                }
-                if (SuperAdminId) {
-                    sessionStorage.setItem('SuperAdminId', SuperAdminId);
-                }
-                // Store login status in sessionStorage
-                sessionStorage.setItem('isSuperAdminLoggedIn', 'true');
+        sessionStorage.setItem(
+          "TokenForSuperAdminOfDineRight",
+          response.data?.token
+        );
+        sessionStorage.setItem(
+          "IDofSuperAdminOfDineRight",
+          response.data?.superadmin_id
+        );
+        sessionStorage.setItem("isSuperAdminLoggedInOfDineRight", true);
 
-                // After successful sign-in, navigate to the dashboard
-                navigate('/dashboard');
-            }
-            else{
-                toast.error("Invalid Credentials!")
-            }
-            
-        } else {
-            toast.error(response?.data?.response?.error_msg || 'Login failed, please try again.');
-        }
-
+        toast.success(response.data.success_msg || "Login successful!");
+        navigate("/dashboard");
+      } else {
+        toast.error(
+          response.data.error_msg || "Login failed. Please try again."
+        );
+      }
     } catch (error) {
-        setLoading(false);
-        console.error('Error logging in:', error);
-        toast.error('An error occurred. Invalid email or password. Please try again.');
+      setLoading(false);
+      console.error("Error logging in:", error);
+      toast.error(
+        "An error occurred. Invalid email or password. Please try again."
+      );
     }
-};
+  };
 
-return (
+  return (
+    <>
+      {loading && <Loader />}
 
-<div className='main-container'>
+      <div style={{ height: "60vh" }}>
+        <div className="login-container mt-4">
+          <form
+            className="login-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSignIn();
+            }}
+          >
+            <h2
+              style={{
+                cursor:"default",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                fontSize: "24px",
+                background:
+                  "linear-gradient(90deg, #fffacd, #ffebcd)" /* Light yellow gradient */,
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" /* Soft shadow */,
+                padding: "10px 20px" /* Adds space around text */,
+                borderRadius: "8px" /* Rounded corners */,
+              }}
+            >
+              {/* <i className="fas fa-user" style={{ 
+      fontSize: "24px", 
+      position: "absolute", 
+      left: "0" 
+    }}></i>  */}
+              <span style={{ textAlign: "center" }}>Super Admin Login</span>
+              {/* <i className="fas fa-user" style={{ 
+      fontSize: "24px", 
+      position: "absolute", 
+      right: "0" 
+    }}></i> */}
+            </h2>
 
-<div className="login-container">
+            <div className="mt-4">
+              <label htmlFor="email" className="login-label ">
+                Email  <span className="text-danger">*</span>
+              </label>
 
-<form className="login-form" onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+              <input
+                type="email"
+                id="email"
+                className="login-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-<h2 className='login-head'><FaAngleLeft /> Login </h2>
+            <div className="mt-0">
+              <label htmlFor="password" className="login-label">
+                Password  <span className="text-danger">*</span>
+              </label>
 
-<label htmlFor="email" className='login-label'>Email</label>
+              <input
+                type="password"
+                id="password"
+                className="login-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
 
-<input
-
-type="email"
-
-id="email"
-
-className='login-input'
-
-value={email}
-
-onChange={(e) => setEmail(e.target.value)}
-
-required
-
-/>
-
-<label htmlFor="password" className='login-label'>Password</label>
-
-<input
-
-type="password"
-
-id="password"
-
-className='login-input'
-
-value={password}
-
-onChange={(e) => setPassword(e.target.value)}
-
-required
-
-/>
-
-<button type="submit" className='login-btn' disabled={loading}>
-
-{loading ? 'Signing in...' : 'Sign In'}
-
-</button>
-
-</form>
-
-</div>
-
-{step === 1 && (
-
-<EmailModal
-
-isOpen={step === 1}
-
-onHide={handleClose}
-
-onEmailSubmit={handleEmailSubmit}
-
-/>
-
-)}
-
-{step === 2 && (
-
-<OtpModal
-
-isOpen={step === 2}
-
-onHide={handleClose}
-
-onOtpSubmit={handleOtpSubmit}
-
-/>
-
-)}
-
-{step === 3 && (
-
-<ChangePasswordModal
-
-isOpen={step === 3}
-
-onHide={handleClose}
-
-onPasswordReset={handlePasswordReset}
-
-/>
-
-)}
-
-</div>
-
-);
-
+            <div className="login-btn-container">
+              <button type="submit" className="login-btn" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Login;
-

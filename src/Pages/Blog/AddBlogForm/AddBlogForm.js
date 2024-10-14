@@ -1,97 +1,20 @@
-// import React, { useState } from 'react';
-// import { Form, Button, Image, Col, Row, Container } from 'react-bootstrap';
-// import "./AddBlogForm.css"
-// const AddBlogForm = ({ onAddBlog }) => {
-//   const [imagePreview, setImagePreview] = useState(null);
-//   const [title, setTitle] = useState('');
-//   const [description, setDescription] = useState('');
-
-//   const handleImageChange = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onloadend = () => {
-//         setImagePreview(reader.result);
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const newBlog = {
-//       image: imagePreview, // Image preview as the base64 string
-//       title,
-//       description,
-//     };
-//     onAddBlog(newBlog);
-//     setTitle('');
-//     setDescription('');
-//     setImagePreview(null); // Clear after submit
-//   };
-
-//   return (
-//     <div className="add-blog-form p-4 mb-4 " style={{ maxWidth:'90%', backgroundColor: '#ffffff', borderRadius: '10px' }}>
-//       <h3 className=" mb-4">Create New Blog</h3>
-//       <Form onSubmit={handleSubmit}>
-//         <Form.Group controlId="formImageUpload">
-//           <Form.Label>Upload Image</Form.Label>
-//           <Form.Control type="file" accept="image/*" onChange={handleImageChange} />
-//         </Form.Group>
-
-//         {imagePreview && (
-//           <div className="text-center my-3">
-//             <Image src={imagePreview} alt="Preview" thumbnail width="150" />
-//           </div>
-//         )}
-
-//         <Form.Group controlId="formTitle">
-//           <Form.Label>Blog Title</Form.Label>
-//           <Form.Control
-//             type="text"
-//             placeholder="Enter blog title"
-//             value={title}
-//             onChange={(e) => setTitle(e.target.value)}
-//             required
-//           />
-//         </Form.Group>
-
-//         <Form.Group controlId="formDescription">
-//           <Form.Label>Blog Description</Form.Label>
-//           <Form.Control
-//             as="textarea"
-//             rows={3}
-//             placeholder="Enter blog description"
-//             value={description}
-//             onChange={(e) => setDescription(e.target.value)}
-//             required
-//           />
-//         </Form.Group>
-
-//         <Row className="mt-4">
-//           <Col className="d-flex justify-content-center">
-//             <Button variant="primary" type="submit">
-//               Add Blog
-//             </Button>
-//           </Col>
-//         </Row>
-//       </Form>
-//     </div>
-//   );
-// };
-
-// export default AddBlogForm;
-
-
-
 import React, { useState } from 'react';
-import { Form, Button, Image, Col, Row } from 'react-bootstrap';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  IconButton,
+  Box,
+} from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './AddBlogForm.css';
 import Loader from '../../Loader/Loader';
+import { PhotoCamera } from '@mui/icons-material'; // Icon for file upload
 
-const AddBlogForm = ({ onAddBlog }) => {
+const AddBlogForm = ({ open, onClose, onAddBlog }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [title, setTitle] = useState('');
@@ -116,8 +39,8 @@ const AddBlogForm = ({ onAddBlog }) => {
     formData.append('blog_image', imageFile);
     formData.append('blog_title', title);
     formData.append('blog_description', description);
-  
-    setLoading(true); // Start loading
+
+    setLoading(true);
 
     try {
       const token = localStorage.getItem('superAdminTokenDineRight');
@@ -131,20 +54,21 @@ const AddBlogForm = ({ onAddBlog }) => {
 
       if (!response.ok) {
         toast.error('Failed to add blog');
+        return;
       }
 
       const data = await response.json();
       onAddBlog(data);
       toast.success('Blog added successfully!');
-      // Clear form fields
       setTitle('');
       setDescription('');
       setImageFile(null);
       setImagePreview(null);
+      onClose(); // Close modal after successful submission
     } catch (error) {
       toast.error('Error adding blog: ' + error.message);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -153,56 +77,70 @@ const AddBlogForm = ({ onAddBlog }) => {
   }
 
   return (
-    <div className="add-blog-form p-4 mb-4" style={{ maxWidth: '90%', backgroundColor: '#ffffff', borderRadius: '10px' }}>
-      <h3 className="mb-4">Create New Blog</h3>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formImageUpload">
-          <Form.Label>Upload Image</Form.Label>
-          <Form.Control type="file" accept="image/*" onChange={handleImageChange} required />
-        </Form.Group>
+    <>
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+        <DialogTitle>Create New Blog</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <Box mb={2}>
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="image-upload"
+                type="file"
+                onChange={handleImageChange}
+                required
+              />
+              <label htmlFor="image-upload">
+                <IconButton color="primary" component="span">
+                  <PhotoCamera />
+                </IconButton>
+                <span>Upload Image</span>
+              </label>
+            </Box>
 
-        {imagePreview && (
-          <div className="text-center my-3">
-            <Image src={imagePreview} alt="Preview" thumbnail width="150" />
-          </div>
-        )}
+            {imagePreview && (
+              <Box className="text-center my-3">
+                <img src={imagePreview} alt="Preview" style={{ width: '150px', borderRadius: '8px' }} />
+              </Box>
+            )}
 
-        <Form.Group controlId="formTitle">
-          <Form.Label>Blog Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter blog title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Form.Group>
+            <TextField
+              label="Blog Title"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
-        <Form.Group controlId="formDescription">
-          <Form.Label>Blog Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter blog description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </Form.Group>
-
-        <Row className="mt-4">
-          <Col className="d-flex justify-content-center">
-            <Button variant="primary" type="submit">
-              Add Blog
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-      <ToastContainer /> {/* Keep ToastContainer here */}
-    </div>
+            <TextField
+              label="Blog Description"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              multiline
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Add Blog
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <ToastContainer /> {/* Toast Notifications */}
+    </>
   );
 };
 
 export default AddBlogForm;
-
 

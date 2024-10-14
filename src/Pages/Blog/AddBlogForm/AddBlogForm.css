@@ -1,9 +1,7 @@
-/* AddBlogForm.css or your global CSS file */
 body {
-    font-family: 'Inter'; /* Apply Inter font to the whole application */
-  }
-  
-  .add-blog-form {
-    font-family: 'Inter'; /* Apply Inter font specifically to the form */
-  }
-  
+  font-family: 'Inter'; /* Apply Inter font to the whole application */
+}
+
+.add-blog-form {
+  font-family: 'Inter'; /* Apply Inter font specifically to the form */
+}
