@@ -1,160 +1,93 @@
+/* Table Styles */
 .table-user {
   border-radius: 8px;
   background-color: #ffffff;
   border: 1px solid #eaecf0 !important;
-  /* overflow: hidden;  */
+  overflow: hidden; /* Ensures no overflow occurs */
 }
 
 .heading_user {
   background-color: #f9fafb;
   font-family: "Inter";
-  font-weight: 500;
-  font-size: 12px;
-  color: #667085;
+  font-weight: 600; /* Slightly bolder for visibility */
+  font-size: 14px; /* Increased font size */
+  color: #4a4a4a; /* Darker color for better readability */
 }
+
 .id-user {
   font-family: "Inter";
-  font-weight: 500;
-  font-size: 12px;
-  color: #667085;
+  font-weight: 600;
+  font-size: 14px; /* Increased font size */
+  color: #4a4a4a;
 }
-/* for table border  */
+
+/* Table Cell Borders */
 .table-user th,
 .table-user td {
   border-top: 1px solid #eaecf0;
   border-bottom: 1px solid #eaecf0;
   border-left: none;
   border-right: none;
-  cursor: pointer;
-}
-.table-user td {
-  position: relative;
-  top: 6px;
+  cursor: default; /* Removed hover cursor effect */
+  padding: 12px; /* Increased padding for better spacing */
 }
 
-/* css for table component  */
+.table-user td {
+  position: relative;
+}
+
+/* Edit User Style */
 .edit_users {
   font-family: "Inter";
   color: #6941c6;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px; /* Increased font size */
+  text-decoration: underline; /* Added underline for better visibility */
+  cursor: pointer; /* Ensure cursor indicates clickable item */
 }
 
-/* for status  */
-/* General styles for status cells */
-
-/* Status specific colors */
-/* .status.confirmed {
+/* Status Styles */
+.status {
   font-family: "Inter";
-  color: #027a48;
-  font-weight: 500;
-  font-size: 12px;
-} */
+  font-weight: 600; /* Slightly bolder for emphasis */
+  font-size: 14px; /* Increased font size */
+}
 
 .status.Activated {
-  font-family: "Inter";
-  color: #027a48;
-  font-weight: 500;
-  font-size: 12px;
+  color: #027a48; /* Green for Activated */
 }
 
-/* .status.cancelled {
-  font-family: "Inter";
-  color: #b42318;
-  font-weight: 500;
-  font-size: 12px;
-} */
 .status.Deactivated {
-  font-family: "Inter";
-  color: #b42318;
-  font-weight: 500;
-  font-size: 12px;
-}
-.status.refund {
-  font-family: "Inter";
-  color: #344054;
-  font-weight: 500;
-  font-size: 12px;
+  color: #b42318; /* Red for Deactivated */
 }
 
-/* .status-background-confirmed {
-  background: #ecfdf3;
+.status.refund {
+  color: #344054; /* Default color for refund */
+}
+
+/* Background for Status */
+.status-background-Activated,
+.status-background-Deactivated,
+.status-background-refund {
   border-radius: 16px;
-  padding: 2px 8px 2px 6px;
-  width: 110px;
+  padding: 6px 12px; /* Adjusted padding for more spacing */
   text-align: center;
-} */
+  font-size: 12px; /* Smaller font for background status */
+}
+
 .status-background-Activated {
   background: #ecfdf3;
-  border-radius: 16px;
-  padding: 2px 8px 2px 6px;
-  width: 110px;
-  text-align: center;
 }
-
-/* .status-background-cancelled {
-  font-family: "Inter";
-  background: #fef3f2;
-  border-radius: 16px;
-  padding: 2px 8px 2px 6px;
-  width: 110px;
-  text-align: center;
-} */
 
 .status-background-Deactivated {
-  font-family: "Inter";
   background: #fef3f2;
-  border-radius: 16px;
-  padding: 2px 8px 2px 6px;
-  width: 110px;
-  text-align: center;
-} 
+}
 
 .status-background-refund {
-  font-family: "Inter";
   background: #f2f4f7;
-  border-radius: 16px;
-  padding: 2px 8px 2px 6px;
-  width: 110px;
-  text-align: center;
 }
 
-/* for name section  */
-.pic-email-user {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 22px;
-}
-
-.name-email-user {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-.img-user {
-  width: 32px;
-  height: 32px;
-  border-radius: 200px;
-}
-.name-user {
-  font-family: "Inter";
-  font-weight: 400;
-  font-size: 12px;
-  color: #101828;
-}
-.email-user {
-  font-family: "Inter";
-  font-weight: 400;
-  font-size: 11px;
-  color: #667085;
-}
-.container-user {
-  position: relative;
-  right: 30px;
-}
+/* Text User Style */
 .text-user {
   font-family: "Inter";
   font-weight: 400;
@@ -162,7 +95,7 @@
   color: #667085;
 }
 
-/* pagination css */
+/* Pagination Styles */
 .pagination-row {
   text-align: center; /* Center the pagination container */
 }
@@ -171,10 +104,7 @@
   display: flex;
   justify-content: center; /* Center the pagination items */
   align-items: center;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  gap: 3px;
+  gap: 8px; /* Increased gap for spacing */
 }
 
 .page-item {
@@ -182,17 +112,14 @@
 }
 
 .page-link {
-  display: block;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 1rem; /* Increased padding for better touch targets */
   margin: 0;
   line-height: 1.25;
-  color: #eaecf0; /* Adjust color as needed */
-  text-align: center;
-  /* background-color: #7F56D9; */
+  color: #667085; /* Color for links */
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   cursor: pointer;
-  z-index: 0;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
 .page-item:first-child {
@@ -205,9 +132,8 @@
 
 .page-item.active .page-link {
   background-color: #eaecf0;
-  border-color: #eaecf0;
-  color: #7f56d9;
-  z-index: 0;
+  border-color: #7f56d9;
+  color: #fff; /* White text for active page */
 }
 
 .page-item.disabled .page-link {
@@ -217,21 +143,6 @@
   border-color: #dee2e6;
 }
 
-.page-item.disabled .page-link:hover {
-  background-color: #fff;
-  z-index: 0;
-}
-
-.pagination .page-link {
-  /* color: #007bff; */
-  border: none;
-  color: #667085;
-}
-
-.pagination .page-item + .page-item {
-  /* margin-left: 40%; */
-}
-
-.pagination .page-item {
-  /* margin: 0 0.25rem; */
+.pagination .page-link:hover {
+  background-color: #e0e0e0; /* Light grey on hover */
 }

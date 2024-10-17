@@ -19,7 +19,7 @@ const loaderStyles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 9999,
+    zIndex: 999999999999,
   },
   modal: {
     maxWidth: '90px',

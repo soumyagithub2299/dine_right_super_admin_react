@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -8,18 +8,38 @@ import {
   TextField,
   IconButton,
   Box,
-} from '@mui/material';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Loader from '../../Loader/Loader';
-import { PhotoCamera } from '@mui/icons-material'; // Icon for file upload
+} from "@mui/material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../Loader/Loader";
+import { PhotoCamera } from "@mui/icons-material"; // Icon for file upload
+import "./AddBlogForm.css"; // Import custom CSS for styles
+import axios from "axios";
 
-const AddBlogForm = ({ open, onClose, onAddBlog }) => {
+const AddBlogForm = ({
+  open,
+  onClose,
+  onAddBlog,
+  selectedBlog,
+  getAllBlogData,
+}) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   if (selectedBlog) {
+  //     setTitle(selectedBlog.blog_title || "");
+  //     setDescription(selectedBlog.blog_description || "");
+  //     setImagePreview(selectedBlog.blog_image || null);
+  //   } else {
+  //     setTitle("");
+  //     setDescription("");
+  //     setImagePreview(null);
+  //   }
+  // }, [selectedBlog]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,73 +55,174 @@ const AddBlogForm = ({ open, onClose, onAddBlog }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate that all required fields are filled
+    if (!title.trim()) {
+      toast.error("Please fill in the blog title.");
+      return;
+    }
+
+    if (!description.trim()) {
+      toast.error("Please fill in the blog description.");
+      return;
+    }
+
+    if (!imageFile) {
+      toast.error("Please upload a blog image.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('blog_image', imageFile);
-    formData.append('blog_title', title);
-    formData.append('blog_description', description);
+    formData.append("blog_image", imageFile);
+    formData.append("blog_title", title);
+    formData.append("blog_description", description);
+
+    // Include the blog ID if editing an existing blog
+    if (selectedBlog) {
+      formData.append("blog_id", selectedBlog.blog_id);
+    }
 
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('superAdminTokenDineRight');
-      const response = await fetch('https://dineright.techfluxsolutions.com/api/auth/insertOrUpdateBlog', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 
-      if (!response.ok) {
-        toast.error('Failed to add blog');
-        return;
+      // Use axios to send the POST request with FormData
+      const response = await axios.post(
+        `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/insertOrUpdateBlog`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // Set content type for form data
+          },
+        }
+      );
+
+      // Check if the response indicates success
+      if (response?.data?.response === true) {
+
+        getAllBlogData();
+
+        setTitle("");
+        setDescription("");
+        setImageFile(null);
+        setImagePreview(null);
+
+        onClose();
+
+        toast.success(
+          selectedBlog
+            ? "Blog updated successfully!"
+            : "Blog added successfully!"
+        );
+      } else {
+        toast.error(response.data.error_msg || "Failed to add/edit blog");
       }
-
-      const data = await response.json();
-      onAddBlog(data);
-      toast.success('Blog added successfully!');
-      setTitle('');
-      setDescription('');
-      setImageFile(null);
-      setImagePreview(null);
-      onClose(); // Close modal after successful submission
     } catch (error) {
-      toast.error('Error adding blog: ' + error.message);
+      toast.error("Error adding/editing blog: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      if (selectedBlog) {
+        setLoading(true);
+
+        const body = {
+          blog_id: selectedBlog?.blog_id,
+        };
+
+        try {
+          const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+          const response = await axios.post(
+            `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/getBlog`,
+            body,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response?.data?.response === true) {
+            const data = response?.data?.blog;
+
+            setTitle(data.blog_title || "");
+            setDescription(data.blog_description || "");
+
+            setImageFile(data.blog_image_url || "");
+
+            setImagePreview(data.blog_image_url || "");
+
+
+          } else {
+            console.log(response.data.error_msg || "Failed to fetch blog data");
+          }
+        } catch (error) {
+          console.log("Error fetching blog data: " + error.message);
+        } finally {
+          setLoading(false); // Ensure loading state is reset
+        }
+      }
+    };
+
+    fetchBlogData();
+  }, [selectedBlog]);
 
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-        <DialogTitle>Create New Blog</DialogTitle>
+        {loading && <Loader />}
+
+        <DialogTitle>
+          {selectedBlog ? "Edit Blog" : "Create New Blog"}
+        </DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <Box mb={2}>
               <input
                 accept="image/*"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 id="image-upload"
                 type="file"
                 onChange={handleImageChange}
-                required
+                required={!selectedBlog} // Make it required only if editing
               />
               <label htmlFor="image-upload">
                 <IconButton color="primary" component="span">
                   <PhotoCamera />
                 </IconButton>
-                <span>Upload Image</span>
+                <span>Upload Image</span> <span className="text-danger">*</span>
               </label>
             </Box>
 
             {imagePreview && (
-              <Box className="text-center my-3">
-                <img src={imagePreview} alt="Preview" style={{ width: '150px', borderRadius: '8px' }} />
+              <Box
+                className="image-preview"
+                sx={{
+                  width: "150px",
+                  height: "150px",
+                  border: "2px solid #1976d2", // Blue border
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "cover", // Ensures the image covers the box without stretching
+                  }}
+                />
               </Box>
             )}
 
@@ -129,18 +250,20 @@ const AddBlogForm = ({ open, onClose, onAddBlog }) => {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={onClose}>
+          <Button
+            variant="outlined"
+            className="cancel-button"
+            onClick={onClose}
+          >
             Cancel
           </Button>
           <Button variant="contained" onClick={handleSubmit}>
-            Add Blog
+            {selectedBlog ? "Edit Blog" : "Add Blog"}
           </Button>
         </DialogActions>
       </Dialog>
-      <ToastContainer /> {/* Toast Notifications */}
     </>
   );
 };
 
 export default AddBlogForm;
-

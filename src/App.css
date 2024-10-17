@@ -5,3 +5,7 @@ body {
   overflow-x: hidden;
   background-color: #FAFAFA;
 }
+
+.toast-container {
+  z-index: 9999; /* Adjust the z-index to be higher than other elements */
+}

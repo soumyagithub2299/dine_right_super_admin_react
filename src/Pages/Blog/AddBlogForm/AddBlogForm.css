@@ -1,7 +1,8 @@
-body {
-  font-family: 'Inter'; /* Apply Inter font to the whole application */
+.cancel-button {
+  transition: all 0.0s ease;
 }
 
-.add-blog-form {
-  font-family: 'Inter'; /* Apply Inter font specifically to the form */
+.cancel-button:hover {
+  border: 2px solid #1976d2; /* Change this color to your preferred hover color */
+  background-color: white; /* Keeps the background white on hover */
 }

@@ -5,24 +5,24 @@ import TableUser from "./TableUser/TableUser";
 const Users = () => {
 
   const [value, setValue] = useState(() => {
-    const storedValue = localStorage.getItem('isSidebarOpen');
+    const storedValue = sessionStorage.getItem('isSidebarOpen');
     return storedValue !== null ? JSON.parse(storedValue) : true;
   });
 
-  // Effect to poll localStorage value repeatedly
+  // Effect to poll sessionStorage value repeatedly
   useEffect(() => {
-    const checkLocalStorage = () => {
-      const storedValue = localStorage.getItem('isSidebarOpen');
+    const checksessionStorage = () => {
+      const storedValue = sessionStorage.getItem('isSidebarOpen');
       const parsedValue = storedValue !== null ? JSON.parse(storedValue) : true;
       
       if (parsedValue !== value) {
         setValue(parsedValue);
-        console.log('LocalStorage value updated:', parsedValue); // Log the updated value
+        console.log('sessionStorage value updated:', parsedValue); // Log the updated value
       }
     };
 
     // Polling interval in milliseconds (e.g., 10ms)
-    const intervalId = setInterval(checkLocalStorage, 10);
+    const intervalId = setInterval(checksessionStorage, 10);
 
     // Cleanup function to clear the interval
     return () => {
@@ -30,18 +30,14 @@ const Users = () => {
     };
   }, [value]);
 
-  useEffect(() => {
-    console.log('Component updated, current value:', value);
-  }, [value]);
-
-
 
   return (
     <>
-      {console.log('After',value)}
        <div className={`content-container ${value ? 'sidebar-open' : 'sidebar-closed'}`} >
       
      <TableUser/>
+
+
     </div>
     </>
    

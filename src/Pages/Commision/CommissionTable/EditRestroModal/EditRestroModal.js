@@ -1,37 +1,44 @@
 import React, { useState, useEffect } from "react";
 import {
-  Modal,
-  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Button,
+  FormControl,
+  InputLabel,
+  Select,
   MenuItem,
-  Box,
-  Grid,
-  IconButton,
+  TextField,
+  CircularProgress,
   Typography,
+  Grid,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close"; // Close icon for modal
-import { toast } from "react-toastify";
-import axios from "axios";
-import Loader from "../../Loader/Loader";
+import { toast, ToastContainer } from "react-toastify";
+import axios from "axios"; // Import axios for API calls
+import "./EditRestroModal.css";
+import Loader from "../../../Loader/Loader";
+import { Box } from "react-bootstrap-icons";
 
-// Constants for Revenue
-const COMMISION_REVENUE = 50;
-const CARD_REVENUE = 20;
-const CASH_REVENUE = 20;
-
-const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
-
-const UserDetailsModal = ({
+const EditRestroModal = ({
   show,
   handleClose,
   restaurantDetails,
   getRestaurantTableData,
 }) => {
+  const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState({
     status: "",
     commission: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+  // Array for status dropdown options
+  const statusOptions = [
+    { key: "Activated", label: "Approved" },
+    { key: "Deactivated", label: "Unapproved" },
+  ];
 
   const [fasaiDocs, setFasaiDocs] = useState([]);
   const [liquerDoc, setLiquerDoc] = useState();
@@ -61,7 +68,7 @@ const UserDetailsModal = ({
               commission: user.commission || "",
             });
 
-            // Update fassaiDocs and liquerDoc based on the user object
+            // Update fasaiDocs and liquerDoc based on the user object
             setFasaiDocs(user.restaurant_fassai_image_name || []);
             setLiquerDoc(user.license_image || "");
           }
@@ -77,6 +84,12 @@ const UserDetailsModal = ({
     fetchRestaurantDetails();
   }, [restaurantDetails]);
 
+  // Handle status change
+  const handleStatusChange = (e) => {
+    setRestaurant({ ...restaurant, status: e.target.value });
+  };
+
+  // Handle commission change
   const handleCommissionChange = (e) => {
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value) || value === "") {
@@ -121,82 +134,29 @@ const UserDetailsModal = ({
 
   return (
     <>
-       {loading && <Loader />}
-    
-    <Modal open={show} onClose={handleClose}>
-      <Box
-        sx={{
-          width: "50%",
-          maxHeight: "90vh",
-          height: "auto",
-          overflowY: "auto",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          bgcolor: "background.paper",
-          padding: 2,
-          borderRadius: 2,
-          boxShadow: 24,
+      {loading && <Loader />}
+
+      <ToastContainer />
+      <Dialog
+        open={show}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{
+          style: {
+            maxHeight: '90vh',
+            overflow: 'auto', // Makes the dialog scrollable
+          },
         }}
       >
-        {/* Close button */}
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{ position: "absolute", right: 8, top: 8 }}
-        >
-          <CloseIcon />
-        </IconButton>
-
-        <h2>Restaurant Details</h2>
-
-        {loading ? (
-          <Loader />
-        ) : restaurantDetails ? (
+        <DialogTitle>Edit Restaurant</DialogTitle>
+        <DialogContent>
           <form onSubmit={handleFormSubmit}>
-            <div>
-              <p>Restaurant name: {restaurantDetails.restaurantName}</p>
-              <p>Restaurant address: {restaurantDetails.restaurantAddress}</p>
-              <p>Owner name: {restaurantDetails.username}</p>
-              <p>Email: {restaurantDetails.email}</p>
-              <p>Phone: {restaurantDetails.phone}</p>
-              <p>
-                Signup Date:{" "}
-                {new Date(restaurantDetails.created_at)
-                  .toLocaleString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })
-                  .replace(",", "")}
-              </p>
-
-              <p>Total Revenue Generated: NULL
-                {/* {restaurantDetails.created_at} */}
-                </p>
-              <p>Total Commision Generated: NULL
-                {/* {restaurantDetails.created_at} */}
-                </p>
-              <p>Commision Status: NULL
-                {/* {restaurantDetails.created_at} */}
-                </p>
-
-            </div>
-
-
-
             <Grid container spacing={2}>
               {/* Dynamically render Fasai documents */}
               {fasaiDocs.length > 0 ? ( // Check if fasaiDocs is not empty
                 fasaiDocs.map(
-                  (
-                    doc,
-                    index // Use index as a fallback key if no unique id
-                  ) => (
+                  (doc, index) => (
                     <Grid item xs={12} key={index}>
                       <Button
                         fullWidth
@@ -243,62 +203,61 @@ const UserDetailsModal = ({
               </Grid>
             </Grid>
 
-            <Grid container spacing={2} mt={2}>
-              {/* Status and Commission fields in a single row */}
-              <Grid item xs={6}>
-                <TextField
-                  select
-                  label="Status"
-                  value={restaurant.status}
-                  onChange={(e) =>
-                    setRestaurant({ ...restaurant, status: e.target.value })
-                  }
-                  fullWidth
-                  margin="normal"
-                  InputProps={{
-                    sx: { height: 45 }, // Adjust height of input fields
-                  }}
-                >
-                  <MenuItem value="Activated">Approved</MenuItem>
-                  <MenuItem value="Deactivated">Unapproved</MenuItem>
-                </TextField>
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  label="% Wise Commission"
-                  value={restaurant.commission}
-                  onChange={handleCommissionChange}
-                  fullWidth
-                  margin="normal"
-                  placeholder="Enter commission percentage"
-                  InputProps={{
-                    sx: { height: 45 }, // Adjust height of input fields
-                  }}
-                />
-              </Grid>
-            </Grid>
-
-            {/* Submit Button centered */}
-            <Box textAlign="center" mt={2}>
-              <Button
-                type="submit"
-                onClick={handleFormSubmit}
-                variant="contained"
-                color="primary"
-                disabled={loading}
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="status-label" shrink>
+                Status
+              </InputLabel>
+              <Select
+                labelId="status-label"
+                value={restaurant.status}
+                onChange={handleStatusChange}
+                fullWidth
+                label="Status"
               >
-                {loading ? "Updating..." : "Update Changes"}
-              </Button>
-            </Box>
+                {statusOptions.map((option) => (
+                  <MenuItem key={option.key} value={option.key}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              fullWidth
+              margin="normal"
+              label="% Wise Commission"
+              type="text"
+              value={restaurant.commission}
+              onChange={handleCommissionChange}
+              placeholder="Enter commission percentage"
+            />
           </form>
-        ) : (
-          <p>No restaurant details available.</p>
-        )}
-      </Box>
-    </Modal>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFormSubmit}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : "Save Changes"}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleClose}
+            style={{
+              backgroundColor: "rgb(223, 22, 22)",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
 
-export default UserDetailsModal;
+export default EditRestroModal;

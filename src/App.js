@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem("isSuperAdminLoggedIn");
-    const encryptedToken = localStorage.getItem(
+    const encryptedToken = sessionStorage.getItem(
       "superAdminTokenDineRight"
     );
 
@@ -45,8 +45,8 @@ function App() {
 
   const handleLogout = () => {
     setLoggedIn(false);
-    localStorage.removeItem("isDineRightUserLoggedIn");
-    localStorage.removeItem("encryptedTokenForDineRightUser");
+    sessionStorage.removeItem("isDineRightUserLoggedIn");
+    sessionStorage.removeItem("encryptedTokenForDineRightUser");
   };
 
   useEffect(() => {
@@ -108,7 +108,6 @@ function AppContent({ isOffline, loggedIn }) {
 
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/restaurant" element={<Restaurant/>} /> */}
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/users" element={<Users/>} />

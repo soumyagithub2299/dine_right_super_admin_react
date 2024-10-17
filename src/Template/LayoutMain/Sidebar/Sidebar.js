@@ -78,7 +78,7 @@ const Sidebar = ({ isOpen }) => {
            <Link to="/commission">
           <li className={`menu-item ${activeItem === "/commission" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
           <LiaMoneyBillWaveSolid />
-              <span>Commission</span>
+              <span>Unapproved Resto</span>
           </li>
           </Link> 
 
@@ -89,73 +89,14 @@ const Sidebar = ({ isOpen }) => {
           </li>
           </Link> 
 
-          {/* <Link to="/homePage-bannerImg">
-          <li className={`menu-item ${activeItem === "/homePage-bannerImg" ? "active" : ""}`} onClick={() => handleItemClick("/homePage-bannerImg")}>
-          <PiCircleDashedDuotone />
-              <span>Banner Image</span>
-          </li>
-          </Link>  */}
 
-          {/* <Link to="/courses-img">
-          <li className={`menu-item ${activeItem === "/courses-img" ? "active" : ""}`} onClick={() => handleItemClick("/courses-img")}>
-          <TfiLayoutSlider />
-              <span>Courses Image</span>
-          </li>
-          </Link> */}
-
-
-          {/* <Link to="/cuisines-img">
-          <li className={`menu-item ${activeItem === "/cuisines-img" ? "active" : ""}`} onClick={() => handleItemClick("/cuisines-img")}>
-          <CiBowlNoodles />
-              <span>Cuisines Image</span>
-          </li>
-          </Link> */}
 
           
 
-          {/* <Link to="/payment">
-            <li
-              className={`menu-item ${
-                activeItem === "/payment" ? "active" : ""
-              }`}
-              onClick={() => handleItemClick("/payment")}
-            >
-              <FaRegUser />
-              <span>Payment</span>
-            </li>
-          </Link> */}
+      
 
         </ul>
 
-        {/* Bottom Section */}
-        <div className="sidebar-bottom">
-          <ul className="sidebar-menu">
-            {/* <Link to="/settings">
-              <li
-                className={`menu-item ${
-                  activeItem === "/settings" ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("/settings")}
-              >
-                <IoSettingsOutline />
-                <span>Settings</span>
-              </li>
-            </Link> */}
-
-            {/* <Link to="/login">
-              <li
-                className={`menu-item ${
-                  activeItem === "/logout" ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("/logout")}
-              >
-                
-                <TbLogout />
-                <span>Logout</span>
-              </li>
-            </Link> */}
-          </ul>
-        </div>
       </div>
     </div>
   );

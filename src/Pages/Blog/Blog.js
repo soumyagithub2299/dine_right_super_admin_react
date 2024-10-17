@@ -1,53 +1,71 @@
-import React, { useState } from 'react';
-import AddBlogForm from './AddBlogForm/AddBlogForm';
-import BlogTable from './BlogTable/BlogTable';
-import EditBlogModal from './BlogTable/EditBlogModal/EditBlogModal';
-import DeleteBlogModal from './BlogTable/DeleteBlogModal/DeleteBlogModal';
-import { Button } from 'react-bootstrap';
-
+import React, { useState } from "react";
+import AddBlogForm from "./AddBlogForm/AddBlogForm";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import { useEffect } from "react";
+import axios from "axios";
+import Loader from "../Loader/Loader";
+import { toast } from "react-toastify";
 
 const Blog = () => {
+  const [loading, setLoading] = useState(false);
+
+  const getAllBlogData = async () => {
+    setLoading(true);
+    try {
+      const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/getAllBlogs`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response?.data?.response === true) {
+        setBlogs(response?.data?.blogs);
+      } else {
+        console.log(response.data.error_msg || "Failed to fetch blog data");
+      }
+    } catch (error) {
+      console.log("Error fetching blog data: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllBlogData();
+  }, []);
+
   const [blogs, setBlogs] = useState([]);
+
   const [selectedBlog, setSelectedBlog] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  // Adding a new blog
-  const addBlog = (newBlog) => {
-    setBlogs([...blogs, { ...newBlog, id: blogs.length + 1 }]);
-  };
-
-  // Updating a blog
-  const updateBlog = (updatedBlog) => {
-    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog));
-  };
-
-  // Deleting a blog
-  const deleteBlog = (id) => {
-    setBlogs(blogs.filter(blog => blog.id !== id));
-  };
-
-  // Handle Edit button click
-  const handleEditClick = (blog) => {
-    setSelectedBlog(blog);  // Set selected blog for editing
-    setShowEditModal(true); // Show the Edit modal
-  };
-
-  // Handle Delete button click
-  const handleDeleteClick = (blogId) => {
-    setSelectedBlog(blogs.find(blog => blog.id === blogId));  // Set selected blog for deletion
-    setShowDeleteModal(true);  // Show the Delete modal
-  };
-
-
-
-
-
-
-
-
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
+
+  // Pagination
+  const blogsPerPage = 10;
+  const pageCount = Math.ceil(blogs.length / blogsPerPage);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -55,183 +73,221 @@ const Blog = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedBlog(null);
+    // getAllBlogData();
   };
 
   const handleAddBlog = (blogData) => {
-    // Do something with the new blog data
-    console.log('Blog added:', blogData);
+    setBlogs((prevBlogs) => [...prevBlogs, { ...blogData, id: Date.now() }]); // Assign a unique id
+    handleCloseModal();
   };
 
+  const handleEditClick = (blog) => {
+    setSelectedBlog(blog);
+    setIsModalOpen(true);
+  };
 
+  const handleDeleteClick = (blog) => {
+    setBlogToDelete(blog);
+    setConfirmDelete(true);
+  };
 
+  const confirmDeleteBlog = async () => {
+    const body = {
+      blog_id: blogToDelete?.blog_id,
+    };
+
+    setLoading(true);
+
+    try {
+      const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/app/deleteBlog`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.data?.response === true) {
+        getAllBlogData();
+        setConfirmDelete(false);
+        setBlogToDelete(null);
+
+        toast.success("Blog deleted successfully!");
+      } else {
+        toast.error(response.data.error_msg || "Failed to delete blog");
+      }
+    } catch (error) {
+      toast.error("Error adding/editing blog: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setConfirmDelete(false);
+    setBlogToDelete(null);
+  };
+
+  // Handle page change
+  const handlePageChange = (direction) => {
+    if (direction === "next" && currentPage < pageCount - 1) {
+      setCurrentPage(currentPage + 1);
+    } else if (direction === "previous" && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
-    <div>
+    <>
+      {loading && <Loader />}
 
-<div style={{ textAlign: 'right', padding: '20px', margin: '20px 0' }}>
-      <Button
-        variant="contained"
-        onClick={handleOpenModal}
-        style={{
-          backgroundColor: '#4CAF50', // Change button background color
-          color: '#FFFFFF', // Button text color
-          padding: '10px 20px', // Padding
-          borderRadius: '8px', // Rounded corners
-          fontSize: '16px', // Font size
-          fontWeight: '500', // Font weight
-          transition: 'background-color 0.3s ease', // Smooth transition for hover effect
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#388E3C'; // Background color on hover
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#4CAF50'; // Revert background color
-        }}
-      >
-        Add New Blog
-      </Button>
+      <div>
+        <div style={{ textAlign: "right", margin: "20px 0" }}>
+          <Button
+            variant="contained"
+            onClick={handleOpenModal}
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "#FFFFFF",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "500",
+              transition: "background-color 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#388E3C";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#4CAF50";
+            }}
+          >
+            Add New Blog
+          </Button>
+        </div>
 
-      <AddBlogForm open={isModalOpen} onClose={handleCloseModal} onAddBlog={handleAddBlog} />
-    </div>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell style={{ width: "8.33%" }}>Sr.</TableCell>{" "}
+                {/* 1/12 */}
+                <TableCell style={{ width: "16.66%" }}>Image</TableCell>{" "}
+                {/* 2/12 */}
+                <TableCell style={{ width: "25%" }}>Title</TableCell>{" "}
+                {/* 3/12 */}
+                <TableCell style={{ width: "25%" }}>Description</TableCell>{" "}
+                {/* 3/12 */}
+                <TableCell style={{ width: "25%" }}>Actions</TableCell>{" "}
+                {/* 3/12 */}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {blogs
+                .slice(
+                  currentPage * blogsPerPage,
+                  (currentPage + 1) * blogsPerPage
+                )
+                .map((blog, index) => (
+                  <TableRow key={blog.blog_id}>
+                    <TableCell>
+                      {index + 1 + currentPage * blogsPerPage}
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        href={blog.blog_image_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Image
+                      </Link>
+                    </TableCell>
+                    <TableCell>{blog.blog_title}</TableCell>
+                    <TableCell>{blog.blog_description}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleEditClick(blog)}
+                        style={{ marginRight: "10px" }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteClick(blog)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "20px",
+          }}
+        >
+          <Button
+            variant="contained"
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange("previous")}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="contained"
+            disabled={currentPage === pageCount - 1}
+            onClick={() => handlePageChange("next")}
+          >
+            Next
+          </Button>
+        </div>
 
-    
-      <BlogTable 
-        blogs={blogs} 
-        onEditClick={handleEditClick} 
-        onDeleteClick={handleDeleteClick} 
-      />
+        {/* Confirmation Dialog for Delete */}
+        <Dialog open={confirmDelete} onClose={handleCloseDeleteConfirmation}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete{" "}
+              <span style={{ fontWeight: "bold", color: "red" }}>
+                {blogToDelete?.blog_title}
+              </span>{" "}
+              blog?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDeleteConfirmation} color="primary">
+              No
+            </Button>
+            <Button onClick={confirmDeleteBlog} color="error">
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* Edit Modal */}
-      {selectedBlog && (
-        <EditBlogModal
-          show={showEditModal}
-          handleClose={() => setShowEditModal(false)}
-          blog={selectedBlog}
-          onUpdateBlog={updateBlog}
-        />
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {selectedBlog && (
-        <DeleteBlogModal
-          show={showDeleteModal}
-          handleClose={() => setShowDeleteModal(false)}
-          blogId={selectedBlog.id}
-          onDeleteBlog={deleteBlog}
-        />
-      )}
-    </div>
+        <Dialog open={isModalOpen} onClose={handleCloseModal}>
+          <AddBlogForm
+            open={isModalOpen}
+            onClose={handleCloseModal}
+            onAddBlog={handleAddBlog}
+            selectedBlog={selectedBlog}
+            getAllBlogData={getAllBlogData}
+          />
+        </Dialog>
+      </div>
+    </>
   );
 };
 
 export default Blog;
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import AddBlogForm from './AddBlogForm/AddBlogForm';
-// import BlogTable from './BlogTable/BlogTable';
-// import EditBlogModal from './BlogTable/EditBlogModal/EditBlogModal';
-// import DeleteBlogModal from './BlogTable/DeleteBlogModal/DeleteBlogModal';
-// import Loader from '../Loader/Loader';
-// // import Loader from '../../Loader/Loader'; // Import the Loader component
-
-// const Blog = () => {
-//   const [blogs, setBlogs] = useState([]);
-//   const [selectedBlog, setSelectedBlog] = useState(null);
-//   const [showEditModal, setShowEditModal] = useState(false);
-//   const [showDeleteModal, setShowDeleteModal] = useState(false);
-//   const [loading, setLoading] = useState(true); // Loading state
-
-//   const token = localStorage.getItem('superAdminTokenDineRight');
-
-//   useEffect(() => {
-//     const fetchBlogs = async () => {
-//       setLoading(true); // Set loading to true before fetching
-//       try {
-//         const response = await fetch('https://dineright.techfluxsolutions.com/api/auth/getAllBlogs', {
-//           method: 'GET',
-//           headers: {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//           },
-//         });
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch blogs');
-//         }
-//         const data = await response.json();
-//         setBlogs(data);
-//       } catch (error) {
-//         console.error('Error fetching blogs:', error);
-//       } finally {
-//         setLoading(false); // Set loading to false after fetching
-//       }
-//     };
-
-//     fetchBlogs();
-//   }, [token]);
-
-//   const addBlog = (newBlog) => {
-//     setBlogs([...blogs, { ...newBlog, id: blogs.length + 1 }]);
-//   };
-
-//   const updateBlog = (updatedBlog) => {
-//     setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog));
-//   };
-
-//   const deleteBlog = (id) => {
-//     setBlogs(blogs.filter(blog => blog.id !== id));
-//   };
-
-//   const handleEditClick = (blog) => {
-//     setSelectedBlog(blog);
-//     setShowEditModal(true);
-//   };
-
-//   const handleDeleteClick = (blogId) => {
-//     setSelectedBlog(blogs.find(blog => blog.id === blogId));
-//     setShowDeleteModal(true);
-//   };
-
-//   // Show loader while fetching data
-//   if (loading) {
-//     return <Loader />; // Show loader while loading
-//   }
-
-//   return (
-//     <div>
-//       <AddBlogForm onAddBlog={addBlog} />
-//       <BlogTable 
-//         blogs={blogs} 
-//         onEditClick={handleEditClick} 
-//         onDeleteClick={handleDeleteClick} 
-//       />
-
-//       {/* Edit Modal */}
-//       {selectedBlog && (
-//         <EditBlogModal
-//           show={showEditModal}
-//           handleClose={() => setShowEditModal(false)}
-//           blog={selectedBlog}
-//           onUpdateBlog={updateBlog}
-//         />
-//       )}
-
-//       {/* Delete Confirmation Modal */}
-//       {selectedBlog && (
-//         <DeleteBlogModal
-//           show={showDeleteModal}
-//           handleClose={() => setShowDeleteModal(false)}
-//           blogId={selectedBlog.id}
-//           onDeleteBlog={deleteBlog}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Blog;
-
-
