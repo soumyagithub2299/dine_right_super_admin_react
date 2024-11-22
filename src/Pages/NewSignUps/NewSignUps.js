@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../Template/LayoutMain/LayoutMain/Layout.css";
 import CommissionTable from "./CommissionTable/CommissionTable";
 
-const Commission = () => {
+const NewSignUps = () => {
   const [value, setValue] = useState(() => {
     const storedValue = sessionStorage.getItem("isSidebarOpen");
     return storedValue !== null ? JSON.parse(storedValue) : true;
@@ -37,6 +37,7 @@ const Commission = () => {
         className={`content-container ${
           value ? "sidebar-open" : "sidebar-closed"
         }`}
+        style={{marginTop:"-30px"}}
       >
         <CommissionTable/>
 
@@ -46,4 +47,4 @@ const Commission = () => {
   );
 };
 
-export default Commission;
+export default NewSignUps;

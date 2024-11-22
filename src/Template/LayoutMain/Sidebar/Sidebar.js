@@ -19,6 +19,11 @@ import { PiCircleDashedDuotone } from "react-icons/pi";
 import { TfiLayoutSlider } from "react-icons/tfi";
 import { CiBowlNoodles } from "react-icons/ci";
 import { BsBlockquoteRight } from "react-icons/bs";
+
+import { AiOutlineTransaction } from "react-icons/ai";
+
+
+
 const Sidebar = ({ isOpen }) => {
   const [activeItem, setActiveItem] = useState(""); // State to track the active item
   const location = useLocation(); // Get the current location
@@ -75,10 +80,28 @@ const Sidebar = ({ isOpen }) => {
             </li>
           </Link>
 
-           <Link to="/commission">
-          <li className={`menu-item ${activeItem === "/commission" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
+
+
+          <Link to="/settlements">
+            <li
+              className={`menu-item ${
+                activeItem === "/settlements" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/settlements")}
+            >
+        
+        <AiOutlineTransaction />
+              <span>Settlements</span>
+            </li>
+          </Link>
+
+
+
+
+           <Link to="/new_signups">
+          <li className={`menu-item ${activeItem === "/new_signups" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
           <LiaMoneyBillWaveSolid />
-              <span>Unapproved Resto</span>
+              <span>New Signup Resto</span>
           </li>
           </Link> 
 

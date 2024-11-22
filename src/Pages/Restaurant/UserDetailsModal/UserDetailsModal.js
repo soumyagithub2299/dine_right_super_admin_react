@@ -14,10 +14,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../Loader/Loader";
 
-// Constants for Revenue
-const COMMISION_REVENUE = 50;
-const CARD_REVENUE = 20;
-const CASH_REVENUE = 20;
 
 const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 

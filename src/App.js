@@ -16,13 +16,14 @@ import Layout from "./Template/LayoutMain/LayoutMain/Layout";
 import EmailModal from "./Pages/Credentials/Login/EmailModal";
 import OtpModal from "./Pages/Credentials/Login/OtpModal";
 import Payment from "./Pages/Payment/Payment";
-import Commission from "./Pages/Commision/commission";
 import Restaurant from "./Pages/Restaurant/restaurant";
 import Users from "./Pages/Users/Users";
 import HomePageBannerImg from "./Pages/HomePageBannerImg/HomePageBannerImg";
 import CoursesImg from "./Pages/CoursesImg/CoursesImg";
 import CuisinesImg from "./Pages/CuisinesImg/CuisinesImg";
 import BlogTemplate from "./Pages/Blog/BlogTemplate";
+import NewSignUps from "./Pages/NewSignUps/NewSignUps";
+import SettleMents from "./Pages/SettleMents/SettleMents";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -111,7 +112,12 @@ function AppContent({ isOffline, loggedIn }) {
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/users" element={<Users/>} />
-          <Route path="/commission" element={<Commission />} />
+
+          <Route path="/settlements" element={<SettleMents/>} />
+
+
+
+          <Route path="/new_signups" element={<NewSignUps />} />
           <Route path="/homePage-bannerImg" element={<HomePageBannerImg/>} />
           <Route path="/courses-img" element={<CoursesImg/>} />
           <Route path="/cuisines-img" element={<CuisinesImg/>} />
