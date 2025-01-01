@@ -53,6 +53,9 @@ const AddBlogForm = ({
     }
   };
 
+  const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -135,15 +138,16 @@ const AddBlogForm = ({
           blog_id: selectedBlog?.blog_id,
         };
 
+
         try {
           const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 
-          const response = await axios.post(
-            `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/getBlog`,
-            body,
+          const response = await axios.get(
+            `${process.env.REACT_APP_DINE_SUPER_ADMIN_BASE_API_URL}/api/auth/getBlog/${selectedBlog?.blog_id}`,
+            // body,
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,      
               },
             }
           );

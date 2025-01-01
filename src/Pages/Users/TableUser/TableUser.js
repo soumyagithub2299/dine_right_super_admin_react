@@ -16,9 +16,9 @@ const TableUser = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
-  const pageCount = Math.ceil(restaurants.length / restaurantsPerPage);
 
   const getRestaurantTableData = async () => {
+    
     try {
       const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 
@@ -97,12 +97,7 @@ const TableUser = () => {
               </tr>
             </thead>
             <tbody style={{ cursor: "default" }}>
-              {restaurants
-                .slice(
-                  currentPage * restaurantsPerPage,
-                  (currentPage + 1) * restaurantsPerPage
-                )
-                .map((restaurant, index) => (
+              {restaurants.map((restaurant, index) => (
                   <tr
                     style={{ cursor: "default" }}
                     key={restaurant.customer_id}
@@ -126,29 +121,7 @@ const TableUser = () => {
             </td>
                   </tr>
                 ))}
-              <tr>
-                <td colSpan="6" className="pagination-row">
-                  <ReactPaginate
-                    previousLabel={"Previous"}
-                    nextLabel={"Next"}
-                    breakLabel={"..."}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={3}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination justify-content-center"}
-                    pageClassName={"page-item"}
-                    pageLinkClassName={"page-link"}
-                    previousClassName={"page-item"}
-                    previousLinkClassName={"page-link"}
-                    nextClassName={"page-item"}
-                    nextLinkClassName={"page-link"}
-                    breakClassName={"page-item"}
-                    breakLinkClassName={"page-link"}
-                    activeClassName={"active"}
-                  />
-                </td>
-              </tr>
+          
             </tbody>
           </table>
         </div>

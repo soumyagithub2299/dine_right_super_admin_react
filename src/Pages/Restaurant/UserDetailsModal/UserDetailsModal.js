@@ -15,7 +15,6 @@ import axios from "axios";
 import Loader from "../../Loader/Loader";
 
 
-const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 
 const UserDetailsModal = ({
   show,
@@ -32,8 +31,14 @@ const UserDetailsModal = ({
   const [fasaiDocs, setFasaiDocs] = useState([]);
   const [liquerDoc, setLiquerDoc] = useState();
 
+      const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
+
+
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
+      const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
+
       if (restaurantDetails) {
         try {
           setLoading(true);
