@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../Loader/Loader";
 import OrdersModal from "../OrdersModal/OrdersModal";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const TableUser = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -16,9 +15,7 @@ const TableUser = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
-
   const getRestaurantTableData = async () => {
-    
     try {
       const token = sessionStorage.getItem("TokenForSuperAdminOfDineRight");
 
@@ -98,30 +95,31 @@ const TableUser = () => {
             </thead>
             <tbody style={{ cursor: "default" }}>
               {restaurants.map((restaurant, index) => (
-                  <tr
-                    style={{ cursor: "default" }}
-                    key={restaurant.customer_id}
+                <tr style={{ cursor: "default" }} key={restaurant.customer_id}>
+                  <th scope="row" className="id-user">
+                    {index + 1}
+                  </th>
+                  <td className="text-user">{restaurant.customer_name}</td>
+                  <td className="text-user">{restaurant.customer_email}</td>
+                  <td className="text-user">
+                    {new Intl.DateTimeFormat("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "2-digit",
+                    })
+                      .format(new Date(restaurant.created_at))
+                      .replace(",", "")}
+                  </td>
+
+                  <td
+                    className="edit_users"
+                    onClick={() => handleRestaurantClick(restaurant)}
                   >
-                    <th scope="row" className="id-user">
-                      {index + 1}
-                    </th>
-                    <td className="text-user">{restaurant.customer_name}</td>
-                    <td className="text-user">{restaurant.customer_email}</td>
-                 <td className="text-user">
-  {new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "2-digit"
-  }).format(new Date(restaurant.created_at)).replace(",", "")}
-</td>
-
-
-                    <td className="edit_users" onClick={() => handleRestaurantClick(restaurant)}>
-              <VisibilityIcon style={{ cursor: 'pointer' }} /> {/* Use the edit icon */}
-            </td>
-                  </tr>
-                ))}
-          
+                    <VisibilityIcon style={{ cursor: "pointer" }} />{" "}
+                    {/* Use the edit icon */}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -129,12 +127,12 @@ const TableUser = () => {
 
       {showDetailsModal && (
         <OrdersModal
-          show={showDetailsModal}
-          handleClose={handleCloseDetailsModal}
-          orderDetails={selectedRestaurant}
-        />
+        show={showDetailsModal}
+        handleClose={handleCloseDetailsModal}
+        selectedRestaurant={selectedRestaurant} // Ensure the correct prop name
+      />
+      
       )}
-
     </div>
   );
 };

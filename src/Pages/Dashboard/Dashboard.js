@@ -77,14 +77,14 @@ const Dashboard = () => {
               <h6>Deactivated Restaurants</h6>
               <p>{TotalAPI_Data?.total_deactivated_restaurant || 0}</p>
             </div>
-            <div className="info-card">
+            {/* <div className="info-card">
               <h6>Deleted Restaurants</h6>
               <p>{TotalAPI_Data?.total_deleted_restaurant || 0}</p>
-            </div>
-            <div className="info-card">
+            </div> */}
+            {/* <div className="info-card">
               <h6>Uncompleted Restaurants</h6>
               <p>{TotalAPI_Data?.total_uncompleted_restaurant || 0}</p>
-            </div>
+            </div> */}
             <div className="info-card">
               <h6>New Registered Restaurants</h6>
               <p>{TotalAPI_Data?.total_new_registered_restaurant || 0}</p>
@@ -98,10 +98,10 @@ const Dashboard = () => {
               <h6>Total Customers</h6>
               <p>{TotalAPI_Data?.total_customers || 0}</p>
             </div>
-            <div className="info-card">
+            {/* <div className="info-card">
               <h6>Deleted Customers</h6>
               <p>{TotalAPI_Data?.total_deleted_customers || 0}</p>
-            </div>
+            </div> */}
           </div>
 
           {/* Bookings Section */}
