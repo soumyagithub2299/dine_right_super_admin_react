@@ -106,10 +106,10 @@ const OrdersModal = ({ show, handleClose, selectedRestaurant }) => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Visited Restaurant</TableCell>
-                    <TableCell>Ordered Items</TableCell>
-                    <TableCell>Total Price</TableCell>
-                    <TableCell>Comment</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Visited Restaurant</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Ordered Items</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Total Price</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Comment</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
