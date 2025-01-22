@@ -146,3 +146,20 @@
 .pagination .page-link:hover {
   background-color: #e0e0e0; /* Light grey on hover */
 }
+.search-container {
+  position: relative;
+}
+
+.clear-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 18px;
+}
+.form-control{
+  box-shadow: none !important;
+  outline: none !important;
+}

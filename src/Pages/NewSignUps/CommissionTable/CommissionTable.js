@@ -13,6 +13,7 @@ const CommissionTable = () => {
   const [loading, setLoading] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getRestaurantTableData = async () => {
     try {
@@ -44,7 +45,6 @@ const CommissionTable = () => {
     }
   };
 
-  // Fetch data on component mount
   useEffect(() => {
     getRestaurantTableData();
   }, []);
@@ -59,92 +59,93 @@ const CommissionTable = () => {
     setSelectedRestaurant(null);
   };
 
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
+
+  const filteredRestaurants = restaurants.filter((restaurant) =>
+    restaurant.restaurantName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="Restro-Table-Main p-3">
+      <div className="d-flex justify-content-end mb-3">
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by Restaurant Name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="form-control search-input"
+          />
+          {searchTerm && (
+            <RxCross2
+              className="clear-icon"
+              onClick={clearSearch}
+            />
+          )}
+        </div>
+      </div>
       {loading ? (
         <Loader />
       ) : (
         <div className="table-responsive mb-5">
-          <table
-            style={{ cursor: "default" }}
-            className="table table-bordered table-user"
-          >
-            <thead style={{ cursor: "default" }} className="heading_user">
-              <tr style={{ cursor: "default" }}>
-                <th scope="col" style={{ width: "5%" }}>
-                  Sr No.
-                </th>
-                <th scope="col" style={{ width: "17%" }}>
-                  Restaurant Name
-                </th>
-                <th scope="col" style={{ width: "15%" }}>
-                  Owner Name
-                </th>
-                <th scope="col" style={{ width: "15%" }}>
-                  Phone
-                </th>
-                <th scope="col" style={{ width: "15%" }}>
-                  Mail ID
-                </th>
-                <th scope="col" style={{ width: "10%" }}>
-                  City
-                </th>
-                <th scope="col" style={{ width: "13%" }}>
-                  Signup
-                </th>
-                <th scope="col" style={{ width: "5%" }}>
-                  %
-                </th>
-                <th scope="col" style={{ width: "15%" }}>
-                  Status
-                </th>
-                <th scope="col" style={{ width: "5%" }}>
-                  Action
-                </th>
+          <table className="table table-bordered table-user">
+            <thead className="heading_user">
+              <tr>
+                <th scope="col" style={{ width: "5%" }}>Sr No.</th>
+                <th scope="col" style={{ width: "17%" }}>Restaurant Name</th>
+                <th scope="col" style={{ width: "15%" }}>Owner Name</th>
+                <th scope="col" style={{ width: "15%" }}>Phone</th>
+                <th scope="col" style={{ width: "15%" }}>Mail ID</th>
+                <th scope="col" style={{ width: "10%" }}>City</th>
+                <th scope="col" style={{ width: "13%" }}>Signup</th>
+                <th scope="col" style={{ width: "5%" }}>%</th>
+                <th scope="col" style={{ width: "15%" }}>Status</th>
+                <th scope="col" style={{ width: "5%" }}>Action</th>
               </tr>
             </thead>
-            <tbody style={{ cursor: "default" }}>
-              {restaurants.map((restaurant, index) => (
-                <tr style={{ cursor: "default" }} key={restaurant.id}>
-                  <th scope="row" className="id-user">
-                    {index + 1}
-                  </th>
-                  <td className="text-user">{restaurant.restaurantName}</td>
-                  <td className="text-user">{restaurant.username}</td>
-                  <td className="text-user">{restaurant.phone}</td>
-                  <td className="text-user">{restaurant.email}</td>
-                  <td className="text-user">{restaurant.city_name}</td>
-                  <td className="text-user">
-                    {new Intl.DateTimeFormat("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "2-digit",
-                    })
-                      .format(new Date(restaurant.created_at))
-                      .replace(",", "")}
-                  </td>
-                  <td className="text-user">
-                    {restaurant.commission ? (
-                      restaurant.commission
-                    ) : (
-                      <span style={{ color: "red", fontWeight: "bold" }}>TBA</span>
-                    )}
-                  </td>
-                  <td className={`status ${restaurant.status}`}>
-                    <div className={`status-background-${restaurant.status}`}>
-                      {restaurant.status === "Activated"
-                        ? "Approved"
-                        : "Unapproved"}
-                    </div>
-                  </td>
-                  <td
-                    className="edit_users"
-                    onClick={() => handleRestaurantClick(restaurant)}
-                  >
-                    <EditIcon style={{ cursor: "pointer" }} />
-                  </td>
+            <tbody>
+              {filteredRestaurants.length > 0 ? (
+                filteredRestaurants.map((restaurant, index) => (
+                  <tr key={restaurant.id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{restaurant.restaurantName}</td>
+                    <td>{restaurant.username}</td>
+                    <td>{restaurant.phone}</td>
+                    <td>{restaurant.email}</td>
+                    <td>{restaurant.city_name}</td>
+                    <td>
+                      {new Intl.DateTimeFormat("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "2-digit",
+                      })
+                        .format(new Date(restaurant.created_at))
+                        .replace(",", "")}
+                    </td>
+                    <td>
+                      {restaurant.commission ? restaurant.commission : (
+                        <span style={{ color: "red", fontWeight: "bold" }}>TBA</span>
+                      )}
+                    </td>
+                    <td className={`status ${restaurant.status}`}>
+                      <div className={`status-background-${restaurant.status}`}>
+                        {restaurant.status === "Activated"
+                          ? "Approved"
+                          : "Unapproved"}
+                      </div>
+                    </td>
+                    <td onClick={() => handleRestaurantClick(restaurant)}>
+                      <EditIcon style={{ cursor: "pointer" }} />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="10" className="text-center">No data available</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

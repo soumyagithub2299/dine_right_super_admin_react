@@ -199,14 +199,17 @@ const Blog = () => {
                       {index + 1 + currentPage * blogsPerPage}
                     </TableCell>
                     <TableCell>
-                      <Link
-                        href={blog.blog_image_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Image
-                      </Link>
+                      <img
+                        src={blog.blog_image_url}
+                        alt="Blog"
+                        style={{
+                          width: "100px", // Set the desired width
+                          height: "auto", // Maintain aspect ratio
+                          borderRadius: "5px", // Optional: Add rounded corners
+                        }}
+                      />
                     </TableCell>
+
                     <TableCell>{blog.blog_title}</TableCell>
                     <TableCell>{blog.blog_description}</TableCell>
                     <TableCell>

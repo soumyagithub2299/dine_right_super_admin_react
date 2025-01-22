@@ -5,11 +5,17 @@ import "./Login.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../Loader/Loader";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons from react-icons
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle visibility
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const navigate = useNavigate();
 
@@ -34,10 +40,6 @@ const Login = () => {
 
     return isValid;
   };
-
-
-
-  
 
   const handleSignIn = async () => {
     if (!validateInputs()) {
@@ -106,7 +108,7 @@ const Login = () => {
           >
             <h2
               style={{
-                cursor:"default",
+                cursor: "default",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -134,7 +136,7 @@ const Login = () => {
 
             <div className="mt-4">
               <label htmlFor="email" className="login-label ">
-                Email  <span className="text-danger">*</span>
+                Email <span className="text-danger">*</span>
               </label>
 
               <input
@@ -149,17 +151,25 @@ const Login = () => {
 
             <div className="mt-0">
               <label htmlFor="password" className="login-label">
-                Password  <span className="text-danger">*</span>
+                Password <span className="text-danger">*</span>
               </label>
 
-              <input
-                type="password"
-                id="password"
-                className="login-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="password-container">
+                <input
+                  type={showPassword ? "text" : "password"} // Change input type based on visibility state
+                  id="password"
+                  className="login-input mb-0"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span
+                  className="password-toggle-icon"
+                  onClick={togglePasswordVisibility} // Toggle visibility on click
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </span>
+              </div>
             </div>
 
             <div className="login-btn-container">

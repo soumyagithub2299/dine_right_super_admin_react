@@ -18,12 +18,16 @@ import OtpModal from "./Pages/Credentials/Login/OtpModal";
 import Payment from "./Pages/Payment/Payment";
 import Restaurant from "./Pages/Restaurant/restaurant";
 import Users from "./Pages/Users/Users";
-import HomePageBannerImg from "./Pages/HomePageBannerImg/HomePageBannerImg";
-import CoursesImg from "./Pages/CoursesImg/CoursesImg";
-import CuisinesImg from "./Pages/CuisinesImg/CuisinesImg";
+import CuisinesImg from "./Pages/CuisinesImg/Cuisines";
 import BlogTemplate from "./Pages/Blog/BlogTemplate";
 import NewSignUps from "./Pages/NewSignUps/NewSignUps";
 import SettleMents from "./Pages/SettleMents/SettleMents";
+import Banner from "./Pages/Banner/Banner";
+import Courses from "./Pages/Courses/Courses";
+import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
+import CancellationPolicy from "./Pages/CancellationPolicy/CancellationPolicy";
+import AboutUs from "./Pages/AboutUs/AboutUs";
+import HelpCenter from "./Pages/HelpCenter/HelpCenter";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -118,10 +122,21 @@ function AppContent({ isOffline, loggedIn }) {
 
 
           <Route path="/new_signups" element={<NewSignUps />} />
-          <Route path="/homePage-bannerImg" element={<HomePageBannerImg/>} />
-          <Route path="/courses-img" element={<CoursesImg/>} />
-          <Route path="/cuisines-img" element={<CuisinesImg/>} />
+
+        
+          <Route path="/help-center" element={<HelpCenter />} />
+          
+          {/* cms */}
+          <Route path="/cuisines" element={<CuisinesImg/>} />
           <Route path="/blog" element={<BlogTemplate/>} />
+          <Route path="/banner" element={<Banner/>} />
+          <Route path="/courses" element={<Courses/>} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+          <Route path="/cancellation-policy" element={<CancellationPolicy/>} />
+          <Route path="/about-us" element={<AboutUs/>} />
+
+
+
         </Route>
       </Routes>
       {/* <Footer /> */}

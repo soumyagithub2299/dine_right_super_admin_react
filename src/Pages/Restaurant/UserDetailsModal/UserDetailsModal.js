@@ -157,13 +157,13 @@ const UserDetailsModal = ({
         ) : restaurantDetails ? (
           <form onSubmit={handleFormSubmit}>
             <div>
-              <p>Restaurant name: {restaurantDetails.restaurantName}</p>
-              <p>Restaurant address: {restaurantDetails.restaurantAddress}</p>
-              <p>Owner name: {restaurantDetails.username}</p>
-              <p>Email: {restaurantDetails.email}</p>
-              <p>Phone: {restaurantDetails.phone}</p>
+              <p><strong>Restaurant name :</strong> {restaurantDetails.restaurantName}</p>
+              <p><strong>Restaurant address :</strong> {restaurantDetails.restaurantAddress}</p>
+              <p><strong>Owner name : </strong>{restaurantDetails.username}</p>
+              <p><strong>Email : </strong>{restaurantDetails.email}</p>
+              <p><strong>Phone : </strong>{restaurantDetails.phone}</p>
               <p>
-                Signup Date:{" "}
+                <strong>Signup Date :</strong>{" "}
                 {new Date(restaurantDetails.created_at)
                   .toLocaleString("en-GB", {
                     day: "2-digit",
@@ -176,13 +176,13 @@ const UserDetailsModal = ({
                   .replace(",", "")}
               </p>
 
-              <p>Total Revenue Generated: NULL
+              <p><strong>Total Revenue Generated :</strong> NULL
                 {/* {restaurantDetails.created_at} */}
                 </p>
-              <p>Total Commision Generated: NULL
+              <p><strong>Total Commision Generated :</strong> NULL
                 {/* {restaurantDetails.created_at} */}
                 </p>
-              <p>Commision Status: NULL
+              <p><strong>Commision Status :</strong> NULL
                 {/* {restaurantDetails.created_at} */}
                 </p>
 

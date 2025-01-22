@@ -8,13 +8,13 @@ import {
   Button,
 } from "@mui/material";
 
-const DeleteCusinesModal = ({ open, onClose, cuisineToDelete, onDeleteCuisine }) => {
+const DeleteBannerForm = ({ open, onClose, bannerToDelete, onDeleteBanner }) => {
   const handleClose = () => {
     onClose();
   };
 
   const handleDelete = () => {
-    onDeleteCuisine(cuisineToDelete);
+    onDeleteBanner(bannerToDelete);
     onClose();
   };
 
@@ -25,7 +25,7 @@ const DeleteCusinesModal = ({ open, onClose, cuisineToDelete, onDeleteCuisine })
         <DialogContentText>
           Are you sure you want to delete{" "}
           <span style={{ fontWeight: "bold", color: "red" }}>
-            {cuisineToDelete?.text}
+            {bannerToDelete?.title}
           </span>
           ?
         </DialogContentText>
@@ -42,4 +42,4 @@ const DeleteCusinesModal = ({ open, onClose, cuisineToDelete, onDeleteCuisine })
   );
 };
 
-export default DeleteCusinesModal;
+export default DeleteBannerForm;

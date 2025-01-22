@@ -1,3 +1,34 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.pagination li.active a {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination li.disabled a {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+
 /* Table Styles */
 .table-user {
   border-radius: 8px;
@@ -145,4 +176,17 @@
 
 .pagination .page-link:hover {
   background-color: #e0e0e0; /* Light grey on hover */
+}
+.search-container {
+  position: relative;
+}
+
+.clear-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 18px;
 }

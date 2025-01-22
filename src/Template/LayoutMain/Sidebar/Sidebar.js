@@ -21,8 +21,10 @@ import { CiBowlNoodles } from "react-icons/ci";
 import { BsBlockquoteRight } from "react-icons/bs";
 
 import { AiOutlineTransaction } from "react-icons/ai";
-
-
+import { FaRegNewspaper } from "react-icons/fa"; // Icon for Blog
+import { RiFilePaper2Line } from "react-icons/ri"; // Icon for Privacy Policy and Cancellation Policy
+import { GiCook } from "react-icons/gi"; // Icon for Cuisines
+import { FiClipboard } from "react-icons/fi"; // Icon for About Us
 
 const Sidebar = ({ isOpen }) => {
   const [activeItem, setActiveItem] = useState(""); // State to track the active item
@@ -47,27 +49,30 @@ const Sidebar = ({ isOpen }) => {
       <div className="sidebar-menu-container">
         {/* Sidebar Menu */}
         <ul className="sidebar-menu">
-        <Link to="/dashboard">
+          <Link to="/dashboard">
             <li
               className={`menu-item ${
                 activeItem === "/dashboard" ? "active" : ""
               }`}
               onClick={() => handleItemClick("/dashboard")}
             >
-              {/* <img className="imgHover" src="./assets/images/Sidebar/dashboard.png" alt="Dashboard" /> */}
               <HiOutlineHome />
               <span className="hover_clr">Dashboard</span>
             </li>
           </Link>
 
           <Link to="/restaurant">
-          <li className={`menu-item ${activeItem === "/restaurant" ? "active" : ""}`} onClick={() => handleItemClick("/restaurant")}>
-          <PiCookingPot />
+            <li
+              className={`menu-item ${
+                activeItem === "/restaurant" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/restaurant")}
+            >
+              <PiCookingPot />
               <span>Restaurant</span>
-          </li>
-          </Link> 
-        
-         
+            </li>
+          </Link>
+
           <Link to="/users">
             <li
               className={`menu-item ${
@@ -80,8 +85,6 @@ const Sidebar = ({ isOpen }) => {
             </li>
           </Link>
 
-
-
           <Link to="/settlements">
             <li
               className={`menu-item ${
@@ -89,37 +92,118 @@ const Sidebar = ({ isOpen }) => {
               }`}
               onClick={() => handleItemClick("/settlements")}
             >
-        
-        <AiOutlineTransaction />
+              <AiOutlineTransaction />
               <span>Settlements</span>
             </li>
           </Link>
 
-
-
-
-           <Link to="/new_signups">
-          <li className={`menu-item ${activeItem === "/new_signups" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
-          <LiaMoneyBillWaveSolid />
+          <Link to="/new_signups">
+            <li
+              className={`menu-item ${
+                activeItem === "/new_signups" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/new_signups")}
+            >
+              <LiaMoneyBillWaveSolid />
               <span>New Signup Resto</span>
-          </li>
-          </Link> 
+            </li>
+          </Link>
 
           <Link to="/blog">
-          <li className={`menu-item ${activeItem === "/blog" ? "active" : ""}`} onClick={() => handleItemClick("/commission")}>
-          <BsBlockquoteRight />
+            <li
+              className={`menu-item ${
+                activeItem === "/blog" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/blog")}
+            >
+              <FaRegNewspaper />
               <span>Blog</span>
-          </li>
-          </Link> 
+            </li>
+          </Link>
 
+          <Link to="/banner">
+            <li
+              className={`menu-item ${
+                activeItem === "/banner" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/banner")}
+            >
+              <RiFilePaper2Line />
+              <span>Banner</span>
+            </li>
+          </Link>
 
+          <Link to="/courses">
+            <li
+              className={`menu-item ${
+                activeItem === "/courses" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/courses")}
+            >
+              <GiCook />
+              <span>Courses</span>
+            </li>
+          </Link>
 
-          
+          <Link to="/cuisines">
+            <li
+              className={`menu-item ${
+                activeItem === "/cuisines" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/cuisines")}
+            >
+              <CiBowlNoodles />
+              <span>Cuisines</span>
+            </li>
+          </Link>
 
-      
+          <Link to="/privacy-policy">
+            <li
+              className={`menu-item ${
+                activeItem === "/privacy-policy" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/privacy-policy")}
+            >
+              <RiFilePaper2Line />
+              <span>Privacy Policy</span>
+            </li>
+          </Link>
 
+          <Link to="/cancellation-policy">
+            <li
+              className={`menu-item ${
+                activeItem === "/cancellation-policy" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/cancellation-policy")}
+            >
+              <RiFilePaper2Line />
+              <span>Cancellation Policy</span>
+            </li>
+          </Link>
+
+          <Link to="/about-us">
+            <li
+              className={`menu-item ${
+                activeItem === "/about-us" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/about-us")}
+            >
+              <FiClipboard />
+              <span>About Us</span>
+            </li>
+          </Link>
+          <Link to="/help-center">
+            <li
+              className={`menu-item ${
+                activeItem === "/help-center" ? "active" : ""
+              }`}
+              onClick={() => handleItemClick("/help-center")}
+            >
+              <FiClipboard />
+              <span>Help Center</span>
+            </li>
+          </Link>
         </ul>
-
       </div>
     </div>
   );

@@ -1,165 +1,203 @@
-import React, { useState } from "react";
-import "../../HomePageBannerImg/HomeHeroSectionTable/HomeHeroSectionTable.css";
-import ReactPaginate from "react-paginate";
-import { MdDelete } from "react-icons/md";
-import { LiaEdit } from "react-icons/lia";
-import AddCuisinesModal from "../AddCusinesModal/AddCuisinesModal"; // Import the add banner modal
-import DeleteCusinesModal from "../DeleteCusinesModal/DeleteCusinesModal"; // Import the delete modal
-import EditCuisinesModal from "../EditCuisinesModal/EditCuisinesModal"; // Import the edit modal
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Link,
+  Typography,
+} from "@mui/material";
+import Loader from "../../Loader/Loader";
+import AddCuisinesModal from "../AddCusinesModal/AddCuisinesModal";
+import EditCuisinesModal from "../EditCuisinesModal/EditCuisinesModal";
+import DeleteCusinesModal from "../DeleteCusinesModal/DeleteCusinesModal";
 
-function CuisinesTable() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [usersPerPage] = useState(5);
-  const [banners, setBanners] = useState([]); // Store added banners
-  const [showAddModal, setShowAddModal] = useState(false); // Handle add modal visibility
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // Handle delete modal visibility
-  const [showEditModal, setShowEditModal] = useState(false); // Handle edit modal visibility
-  const [bannerToDelete, setBannerToDelete] = useState(null); // Store the banner to be deleted
-  const [bannerToEdit, setBannerToEdit] = useState(null); // Store the banner to be edited
+const CuisinesTable = () => {
+  const [cuisines, setCuisines] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedCuisine, setSelectedCuisine] = useState(null);
+  const [cuisineToDelete, setCuisineToDelete] = useState(null);
 
-  const pageCount = Math.ceil(banners.length / usersPerPage); // Dynamic page count
+  const dummyData = [
+    {
+      id: 1,
+      text: "Pizza",
+      image: "https://via.placeholder.com/100x50?text=Pizza",
+    },
+    {
+      id: 2,
+      text: "Burger",
+      image: "https://via.placeholder.com/100x50?text=Burger",
+    },
+  ];
 
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
+  // Simulate fetching data with loading state
+  const getAllCuisineData = async () => {
+    setLoading(true);
+    try {
+      setTimeout(() => {
+        setCuisines(dummyData);
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error fetching cuisine data: " + error.message);
+      setLoading(false);
+    }
   };
 
-  const handleSave = (text, image) => {
-    // Add the new banner to the banners array
-    const newBanner = {
-      id: banners.length + 1,
-      text: text,
-      image: image,
-    };
-    setBanners([...banners, newBanner]); // Update state with new banner
+  useEffect(() => {
+    getAllCuisineData();
+  }, []);
+
+  const handleAddCuisine = () => {
+    setOpenAddModal(true);
   };
 
-  const handleDeleteClick = (banner) => {
-    setBannerToDelete(banner);
-    setShowDeleteModal(true);
+  const handleCloseAddModal = () => {
+    setOpenAddModal(false);
   };
 
-  const handleEditClick = (banner) => {
-    setBannerToEdit(banner);
-    setShowEditModal(true);
+  const handleAddCuisineSuccess = () => {
+    getAllCuisineData();
   };
 
-  const handleDelete = () => {
-    // Remove the selected banner
-    setBanners(banners.filter((banner) => banner.id !== bannerToDelete.id));
-    setShowDeleteModal(false); // Close the modal
+  const handleEditCuisine = (cuisine) => {
+    setSelectedCuisine(cuisine);
+    setOpenEditModal(true);
   };
 
-  const handleUpdate = (updatedBanner) => {
-    // Update the selected banner
-    setBanners(
-      banners.map((banner) =>
-        banner.id === updatedBanner.id ? updatedBanner : banner
-      )
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+    setSelectedCuisine(null);
+  };
+
+  const handleEditCuisineSuccess = (updatedCuisine) => {
+    const updatedCuisines = cuisines.map((cuisine) =>
+      cuisine.id === updatedCuisine.id ? updatedCuisine : cuisine
     );
+    setCuisines(updatedCuisines);
   };
 
-  const indexOfLastBanner = (currentPage + 1) * usersPerPage;
-  const indexOfFirstBanner = indexOfLastBanner - usersPerPage;
-  const currentBanners = banners.slice(indexOfFirstBanner, indexOfLastBanner);
+  const handleDeleteCuisine = (cuisine) => {
+    setCuisineToDelete(cuisine);
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false);
+    setCuisineToDelete(null);
+  };
+
+  const handleConfirmDeleteCuisine = (cuisine) => {
+    const updatedCuisines = cuisines.filter((c) => c.id !== cuisine.id);
+    setCuisines(updatedCuisines);
+  };
 
   return (
-    <div className="container">
-      <button
-        className="btn-HomeHeroSectionTable"
-        onClick={() => setShowAddModal(true)}
+    <>
+      <Button
+        variant="contained"
+        style={{
+          float: "right",
+          backgroundColor: "#4CAF50",
+          color: "#FFFFFF",
+          padding: "10px 20px",
+          borderRadius: "8px",
+          border: "none",
+          fontSize: "16px",
+          fontWeight: "500",
+          transition: "background-color 0.3s ease",
+          marginBottom: "10px",
+        }}
+        onClick={handleAddCuisine}
       >
-        +Add New
-      </button>
+        Add Cuisine
+      </Button>
 
-      <div className="p-3 mt-4">
-        <div className="table-responsive">
-          <table className="table table-bordered table-BannerImg">
-            <thead className="heading_BannerImg">
-              <tr>
-                <th scope="col">Sr No.</th>
-                <th scope="col">Cuisine Image</th>
-                <th scope="col">Cuisine Name</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentBanners.map((banner, index) => (
-                <tr key={banner.id}>
-                  <th scope="row" className="id-BannerImg">
-                    {indexOfFirstBanner + index + 1}
-                  </th>
-                  <td>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>SR No.</TableCell>
+              <TableCell>Cuisine Name</TableCell>
+              <TableCell>Cuisine Image</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cuisines.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  <Typography variant="h6">No data available</Typography>
+                </TableCell>
+              </TableRow>
+            ) : (
+              cuisines.map((cuisine, index) => (
+                <TableRow key={cuisine.id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{cuisine.text}</TableCell>
+                  <TableCell>
                     <img
-                      src={banner.image}
-                      alt="Banner"
-                      style={{ width: "70px", height: "50px" }}
+                      src={cuisine.image}
+                      alt={cuisine.text}
+                      style={{ width: "100px", height: "50px" }}
                     />
-                  </td>
-                  <td className="text-BannerImg">{banner.text}</td>
-                  <td className="action-BannerImg">
-                    <LiaEdit
-                      style={{ color: "blue", cursor: "pointer" }}
-                      onClick={() => handleEditClick(banner)} // Trigger edit modal
-                    />
-                    <MdDelete
-                      style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleDeleteClick(banner)} // Trigger delete confirmation modal
-                    />
-                  </td>
-                </tr>
-              ))}
+                  </TableCell>
+                  <TableCell>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleEditCuisine(cuisine)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteCuisine(cuisine)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-              <tr>
-                <td colSpan="4" className="pagination-row">
-                  <ReactPaginate
-                    previousLabel={"Previous"}
-                    nextLabel={"Next"}
-                    breakLabel={"..."}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={3}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination justify-content-center"}
-                    pageClassName={"page-item"}
-                    pageLinkClassName={"page-link"}
-                    previousClassName={"page-item"}
-                    previousLinkClassName={"page-link"}
-                    nextClassName={"page-item"}
-                    nextLinkClassName={"page-link"}
-                    breakClassName={"page-item"}
-                    breakLinkClassName={"page-link"}
-                    activeClassName={"active"}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Add Modal Component */}
       <AddCuisinesModal
-        show={showAddModal}
-        handleClose={() => setShowAddModal(false)}
-        handleSave={handleSave}
+        show={openAddModal}
+        handleClose={handleCloseAddModal}
+        handleSave={handleAddCuisineSuccess}
       />
 
-      {/* Delete Banner Modal */}
-      <DeleteCusinesModal
-        show={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
-        handleDelete={handleDelete}
-      />
-
-      {/* Edit Banner Modal */}
       <EditCuisinesModal
-        show={showEditModal}
-        handleClose={() => setShowEditModal(false)}
-        bannerToEdit={bannerToEdit}
-        handleUpdate={handleUpdate}
+        show={openEditModal}
+        handleClose={handleCloseEditModal}
+        bannerToEdit={selectedCuisine}
+        handleUpdate={handleEditCuisineSuccess}
       />
-    </div>
+
+      <DeleteCusinesModal
+        open={openDeleteModal}
+        onClose={handleCloseDeleteModal}
+        cuisineToDelete={cuisineToDelete}
+        onDeleteCuisine={handleConfirmDeleteCuisine}
+      />
+
+      {loading && <Loader />}
+    </>
   );
-}
+};
 
 export default CuisinesTable;

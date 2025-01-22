@@ -29,6 +29,7 @@
   /* margin: 0; */
   margin-top: 28px;
   cursor: pointer;
+  height: 150vh;
 }
 .sidebar-menu-container ul li{
   margin: 5px;
