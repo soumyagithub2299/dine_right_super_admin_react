@@ -836,12 +836,22 @@ const CommissionTable = () => {
                   <td>{formattedDate}</td>
                   <td>{guest?.status}</td>
                   <td>
-                    <button
-                      onClick={() => handleActionClick(guest)}
-                      style={{ background: "none", border: "none", cursor: "pointer" }}
-                    >
-                      <FaEdit style={{ color: "blue" }} />
-                    </button>
+                  <button
+  onClick={() => handleActionClick(guest)}
+  style={{
+    background: "none",
+    border: "none",
+    cursor: guest?.status === "pending" ? "pointer" : "not-allowed",
+    color: guest?.status === "pending" ? "blue" : "gray",
+    fontSize: "25px",
+    opacity: guest?.status === "pending" ? 1 : 0.5,
+  }}
+  disabled={guest?.status !== "pending"}
+>
+  <FaEdit style={{ color: "inherit" }} />
+</button>
+
+
                   </td>
                 </tr>
               );

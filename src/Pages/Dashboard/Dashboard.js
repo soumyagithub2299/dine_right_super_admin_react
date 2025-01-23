@@ -133,8 +133,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Payout Balance Section */}
-          <div className="section" style={{ backgroundColor: "#e3f2fd" }}>
+          {/* <div className="section" style={{ backgroundColor: "#e3f2fd" }}>
             <h4>Payout Balance</h4>
             <div className="info-card">
               <h6>Total Payout Balance</h6>
@@ -148,7 +147,7 @@ const Dashboard = () => {
               <h6>COD Payout Balance</h6>
               <p>₹ {TotalAPI_Data?.total_cod_payout_balance || 0}</p>
             </div>
-          </div>
+          </div> */}
 
           {/* Commission Amount Section */}
           <div className="section" style={{ backgroundColor: "#f8bbd0" }}>
