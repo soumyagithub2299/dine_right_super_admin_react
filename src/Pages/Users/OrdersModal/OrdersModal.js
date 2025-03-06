@@ -136,9 +136,9 @@ const OrdersModal = ({ show, handleClose, selectedRestaurant }) => {
                       </TableCell> */}
                       <TableCell>{booking.booking_no_of_guest}</TableCell>
                       <TableCell>${booking.billing_amount}</TableCell>
-                      <TableCell>{booking.payment_mod}</TableCell>
-                      <TableCell>{booking.payment_status}</TableCell>
-                      <TableCell>{booking.booking_status}</TableCell>
+                     <TableCell>{booking.payment_mod.charAt(0).toUpperCase() + booking.payment_mod.slice(1)}</TableCell>
+                      <TableCell>{booking.payment_status.charAt(0).toUpperCase() + booking.payment_status.slice(1)}</TableCell>
+                      <TableCell>{booking.booking_status.charAt(0).toUpperCase() + booking.booking_status.slice(1)}</TableCell>
                     </TableRow>
                   ))
                 ) : (
